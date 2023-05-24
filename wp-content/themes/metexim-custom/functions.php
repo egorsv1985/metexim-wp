@@ -161,3 +161,23 @@ function acf_generate_field_name($field)
 }
 add_filter('acf/load_field', 'acf_generate_field_name');
 ?>
+
+
+<?php
+add_filter( 'wpcf7_autop_or_not', '__return_false' );
+add_filter( 'wpcf7_form_elements', 'custom_wpcf7_form_elements' );
+
+function custom_wpcf7_form_elements( $form ) {
+    // Удалите или измените ненужные вам теги формы
+    $form = str_replace( '<br />', '', $form ); // Удалить автоматически добавляемые теги <br />
+    $form = str_replace( '<span class="wpcf7-form-control-wrap">', '', $form ); // Удалить открывающий тег <span>
+    $form = str_replace( '</span>', '', $form ); // Удалить закрывающий тег </span>
+
+    
+
+    return $form;
+}
+
+
+
+?>

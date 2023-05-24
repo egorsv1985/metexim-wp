@@ -105,139 +105,24 @@ get_header(); ?>
               </div>
               <div class="col-12">
                 <h2 class="fs-30 fw-800 mb-4">
-                  Узнайте сколько вы получите денег от сдачи металлолома
+                  <?php echo get_field('zagolovok-vozle-formy'); ?>
                 </h2>
               </div>
               <div class="col-10">
                 <p class="fs-18 fw-500">
-                  Заполните форму и мы вам индивидуально выполнем расчет и
-                  перезвоним
+                  <?php echo get_field('kontent-vozle-formy'); ?>
                 </p>
               </div>
             </div>
           </div>
         </div>
         <div class="col-12 col-lg-6">
-          <form action="#" method="get" class="rounded-3 border px-3 px-sm-5 py-4 bg-secondary h-100">
-            <ul class="nav nav-tabs justify-content-between position-relative mb-5" id="valuationTab" role="tablist">
-              <li class="nav-item position-relative bg-secondary" role="presentation">
-                <button class="nav-link active py-3 px-4 fs-20 fw-600" id="one-tab" data-bs-toggle="tab" data-bs-target="#one" type="button" role="tab" aria-controls="one" aria-selected="true">
-                  1
-                </button>
-              </li>
-              <li class="nav-item position-relative bg-secondary" role="presentation">
-                <button class="nav-link py-3 px-4 fs-20 fw-600" id="two-tab" data-bs-toggle="tab" data-bs-target="#two" type="button" role="tab" aria-controls="two" aria-selected="false">
-                  2
-                </button>
-              </li>
-              <li class="nav-item position-relative bg-secondary" role="presentation">
-                <button class="nav-link py-3 px-4 fs-20 fw-600" id="three-tab" data-bs-toggle="tab" data-bs-target="#three" type="button" role="tab" aria-controls="three" aria-selected="false">
-                  3
-                </button>
-              </li>
-            </ul>
-            <div class="tab-content" id="valuationTabContent">
-              <div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="one-tab">
-                <div class="row g-2 mb-5">
-                  <div class="col-6">
-                    <select class="form-select py-3 px-2 p-sm-3 fs-14 fw-500 text-info" id="sort">
-                      <option selected value="0">Вид металла</option>
-                      <option value="Черный лом">Черный лом</option>
-                      <option value="Аккумуляторы">Аккумуляторы</option>
-                      <option value="Медь">Медь</option>
-                      <option value="Бронза">Бронза</option>
-                      <option value="Латунь">Латунь</option>
-                      <option value="Алюминий">Алюминий</option>
-                      <option value="Нержавейка">Нержавейка</option>
-                      <option value="Свинец">Свинец</option>
-                      <option value="Титан">Титан</option>
-                      <option value="Редкоземелы">Редкоземелы</option>
-                      <option value="Легир. сталь">Легированная сталь</option>
-                      <option value="Оборудование">Оборудование</option>
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <select class="form-select py-3 px-2 p-sm-3 fs-14 fw-500 text-info" id="type">
-                      <option value="0">Тип изделия</option>
-                      <option value="Трубы">Трубы</option>
-                      <option value="Кабель">Кабель</option>
-                      <option value="Батареи">Батареи</option>
-                      <option value="АКБ">АКБ</option>
-                      <option value="Бочка">Бочка</option>
-                      <option value="Автомобиль">Автомобиль</option>
-                      <option value="Станок">Станок</option>
-                      <option value="Двигатель">Двигатель</option>
-                      <option value="Стружка">Стружка</option>
-                      <option value="Другое">Другое</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between gap-2">
-                  <button class="col-6 col-md-4 fs-16 fw-500 btn d-block btn-transparent btn-outline-danger px-3 py-3 disabled position-relative btn__arrow btn__arrow--back" disabled title="Назад">Назад</button>
 
-                  <button class="col-6 col-md-4 btn fs-16 fw-500 px-3 py-3 btn-danger position-relative btn__arrow btn__arrow--next" id="two-tab-next" data-bs-toggle="tab" data-bs-target="#two" type="button" aria-controls="two" aria-selected="false">
-                    Далее
-                  </button>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="two-tab">
-                <div class="row g-2 mb-5">
-                  <div class="col-6">
-                    <input type="text" id="ves" placeholder="Объем металла, кг" class="form-control py-3 px-2 p-sm-3 fs-14 fw-500 text-info">
-                  </div>
-                  <div class="col-6">
-                    <p class="fs-14 fw-500 text-info mb-2">Вывоз необходим?</p>
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-check">
-                          <input class="form-check-input me-2" type="radio" id="no" name="no">
-                          <label class="form-check-label fs-14 fw-500 text-info" for="no">
-                            Нет
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="form-check">
-                          <input class="form-check-input me-2" type="radio" id="yes" name="yes">
-                          <label class="form-check-label fs-14 fw-500 text-info" for="yes">
-                            Да
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between gap-2">
-                  <button class="col-6 col-md-4 btn fs-16 fw-500 px-3 py-3 btn-danger position-relative btn__arrow btn__arrow--next-back" id="one-tab-back" data-bs-toggle="tab" data-bs-target="#one" type="button" aria-controls="one" aria-selected="false">
-                    Назад
-                  </button>
+          <?php echo do_shortcode('[contact-form-7 id="61" title="Форма оценки стоимости"]'); ?>
 
-                  <button class="col-6 col-md-4 btn fs-16 fw-500 px-3 py-3 btn-danger position-relative btn__arrow btn__arrow--next" id="three-tab-next" data-bs-toggle="tab" data-bs-target="#three" type="button" aria-controls="three" aria-selected="false">
-                    Далее
-                  </button>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="three-tab">
-                <div class="row g-2 mb-5">
-                  <div class="col-6 position-relative">
-                    <input type="text" id="name-valuation" name="form[]" data-error="Ошибка" placeholder="Ваше имя" class="form-control py-3 px-2 p-sm-3 fs-14 fw-500 text-info" required>
-                  </div>
-                  <div class="col-6 position-relative">
-                    <input type="tel" id="tel-valuation" name="form[]" data-error="Ошибка" placeholder="Телефон" class="form-control py-3 px-2 p-sm-3 fs-14 fw-500 text-info" required>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between gap-2">
-                  <button class="col-6 col-md-4 btn fs-16 fw-500 px-3 py-3 btn-danger position-relative btn__arrow btn__arrow--next-back" id="two-tab-back" data-bs-toggle="tab" data-bs-target="#two" type="button" aria-controls="two" aria-selected="false">
-                    Назад
-                  </button>
 
-                  <button class="col-6 col-md-4 btn fs-16 fw-500 px-3 py-3 btn-danger position-relative btn__arrow btn__arrow--next" id="three-tab-submit" data-bs-toggle="tab" data-bs-target="#three" type="submit" aria-controls="three" aria-selected="false">
-                    Отправить
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
+
+
         </div>
       </div>
     </div>
@@ -246,8 +131,7 @@ get_header(); ?>
   <section class="advantages py-5">
     <div class="container">
       <h2 class="fs-36 fw-800 text-center mb-5">
-        Метэксим - успешная и динамично развивающаяся компания, созданная в 2006
-        году, входит в группу компаний Транслом
+      <?php echo get_field('zagolovok-dlja-preimushhestv'); ?>
       </h2>
       <ul class="nav nav-tabs flex-column flex-lg-row justify-content-center position-relative mb-5 gap-3 flex-nowrap" id="advantagesTab" role="tablist">
         <li class="nav-item position-relative " role="presentation">
