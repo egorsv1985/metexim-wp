@@ -15,7 +15,7 @@ function metexim_custom_enqueue_scripts()
     wp_enqueue_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', array('jquery'), null, false);
     wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', array('jquery'), null, false);
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js', array(''), null, false);
-    wp_enqueue_script('app', get_stylesheet_directory_uri() . '/js/app.js', array(''), null, false);
+    wp_enqueue_script('app', get_stylesheet_directory_uri() . '/js/app.js');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_scripts');
 
@@ -34,7 +34,8 @@ add_action('init', 'metexim_custom_register_menus');
 
 <?php
 // Создание типа записи "Галерея"
-function create_gallery_post_type() {
+function create_gallery_post_type()
+{
     $labels = array(
         'name'               => 'Галерея',
         'singular_name'      => 'Слайд',
@@ -56,87 +57,90 @@ function create_gallery_post_type() {
         'labels'             => $labels,
         'public'             => true,
         'menu_icon'          => 'dashicons-images-alt2',
-        'supports'           => array( 'title', 'editor', 'thumbnail' ),
+        'supports'           => array('title', 'editor', 'thumbnail'),
         'has_archive'        => false,
-        'rewrite'            => array( 'slug' => 'gallery' ),
+        'rewrite'            => array('slug' => 'gallery'),
     );
 
-    register_post_type( 'gallery', $args );
+    register_post_type('gallery', $args);
 }
-add_action( 'init', 'create_gallery_post_type' );
+add_action('init', 'create_gallery_post_type');
 
 // Добавление метабокса для выбора фонового изображения
-function add_gallery_meta_box() {
-    add_meta_box( 'gallery_background', 'Фоновое изображение', 'render_gallery_background_meta_box', 'gallery', 'normal', 'high' );
+function add_gallery_meta_box()
+{
+    add_meta_box('gallery_background', 'Фоновое изображение', 'render_gallery_background_meta_box', 'gallery', 'normal', 'high');
 }
-add_action( 'add_meta_boxes', 'add_gallery_meta_box' );
+add_action('add_meta_boxes', 'add_gallery_meta_box');
 
-function render_gallery_background_meta_box( $post ) {
-    $background_image = get_post_meta( $post->ID, 'gallery_background_image', true );
+function render_gallery_background_meta_box($post)
+{
+    $background_image = get_post_meta($post->ID, 'gallery_background_image', true);
 
-    wp_nonce_field( basename( __FILE__ ), 'gallery_background_nonce' );
-    ?>
+    wp_nonce_field(basename(__FILE__), 'gallery_background_nonce');
+?>
     <p>
         <label for="gallery_background_image">Выберите фоновое изображение:</label><br>
-        <?php if ( $background_image ) : ?>
-            <img src="<?php echo esc_url( $background_image ); ?>" alt="Background Image" style="max-width: 200px; margin-bottom: 10px;">
+        <?php if ($background_image) : ?>
+            <img src="<?php echo esc_url($background_image); ?>" alt="Background Image" style="max-width: 200px; margin-bottom: 10px;">
         <?php endif; ?>
-        <input type="hidden" id="gallery_background_image" name="gallery_background_image" value="<?php echo esc_attr( $background_image ); ?>">
+        <input type="hidden" id="gallery_background_image" name="gallery_background_image" value="<?php echo esc_attr($background_image); ?>">
         <br>
         <button id="gallery_background_image_button" class="button"><?php echo $background_image ? 'Изменить изображение' : 'Выбрать изображение'; ?></button>
     </p>
     <script>
-    jQuery(document).ready(function($){
-        var mediaUploader;
-        $('#gallery_background_image_button').click(function(e) {
-            e.preventDefault();
-            if (mediaUploader) {
-                mediaUploader.open();
-                return;
-            }
-            mediaUploader = wp.media({
-                title: 'Выберите изображение',
-                button: {
-                    text: 'Выбрать'
-                },
-                multiple: false
-            }).on('select', function() {
-                var attachment = mediaUploader.state().get('selection').first().toJSON();
-                $('#gallery_background_image').val(attachment.url);
-                $('#gallery_background_image_button').html('Изменить изображение');
-                $('#gallery_background_image').siblings('img').attr('src', attachment.url).show();
-            }).open();
+        jQuery(document).ready(function($) {
+            var mediaUploader;
+            $('#gallery_background_image_button').click(function(e) {
+                e.preventDefault();
+                if (mediaUploader) {
+                    mediaUploader.open();
+                    return;
+                }
+                mediaUploader = wp.media({
+                    title: 'Выберите изображение',
+                    button: {
+                        text: 'Выбрать'
+                    },
+                    multiple: false
+                }).on('select', function() {
+                    var attachment = mediaUploader.state().get('selection').first().toJSON();
+                    $('#gallery_background_image').val(attachment.url);
+                    $('#gallery_background_image_button').html('Изменить изображение');
+                    $('#gallery_background_image').siblings('img').attr('src', attachment.url).show();
+                }).open();
+            });
         });
-    });
     </script>
-    <?php
+<?php
 }
 
 
-function save_gallery_background_meta_box( $post_id ) {
-    if ( ! isset( $_POST['gallery_background_nonce'] ) || ! wp_verify_nonce( $_POST['gallery_background_nonce'], basename( __FILE__ ) ) ) {
+function save_gallery_background_meta_box($post_id)
+{
+    if (!isset($_POST['gallery_background_nonce']) || !wp_verify_nonce($_POST['gallery_background_nonce'], basename(__FILE__))) {
         return;
     }
 
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
 
-    if ( isset( $_POST['post_type'] ) && 'gallery' == $_POST['post_type'] ) {
-        if ( ! current_user_can( 'edit_page', $post_id ) ) {
+    if (isset($_POST['post_type']) && 'gallery' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
             return;
         }
     } else {
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if (!current_user_can('edit_post', $post_id)) {
             return;
         }
     }
 
-    if ( isset( $_POST['gallery_background_image'] ) ) {
-        update_post_meta( $post_id, 'gallery_background_image', sanitize_text_field( $_POST['gallery_background_image'] ) );
+    if (isset($_POST['gallery_background_image'])) {
+        update_post_meta($post_id, 'gallery_background_image', sanitize_text_field($_POST['gallery_background_image']));
     }
 }
-add_action( 'save_post', 'save_gallery_background_meta_box' );
+add_action('save_post', 'save_gallery_background_meta_box');
 
 
 ?>
@@ -164,20 +168,36 @@ add_filter('acf/load_field', 'acf_generate_field_name');
 
 
 <?php
-add_filter( 'wpcf7_autop_or_not', '__return_false' );
-add_filter( 'wpcf7_form_elements', 'custom_wpcf7_form_elements' );
+add_filter('wpcf7_autop_or_not', '__return_false');
+add_filter('wpcf7_form_elements', 'custom_wpcf7_form_elements');
 
-function custom_wpcf7_form_elements( $form ) {
+function custom_wpcf7_form_elements($form)
+{
     // Удалите или измените ненужные вам теги формы
-    $form = str_replace( '<br />', '', $form ); // Удалить автоматически добавляемые теги <br />
-    $form = str_replace( '<span class="wpcf7-form-control-wrap">', '', $form ); // Удалить открывающий тег <span>
-    $form = str_replace( '</span>', '', $form ); // Удалить закрывающий тег </span>
+    $form = str_replace('<br />', '', $form); // Удалить автоматически добавляемые теги <br />
+    $form = str_replace('<span class="wpcf7-form-control-wrap">', '', $form); // Удалить открывающий тег <span>
+    $form = str_replace('</span>', '', $form); // Удалить закрывающий тег </span>
 
-    
+
 
     return $form;
 }
+?>
 
+
+
+
+
+<?php
+function allow_svg_upload($mimes)
+{
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'allow_svg_upload');
+?>
+
+<?php
 
 
 ?>

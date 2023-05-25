@@ -56,6 +56,8 @@
 	  });
 	}
 	r();
+
+	// сделал
 	e.popup = new (class {
 	  constructor(e) {
 		let t = {
