@@ -198,38 +198,53 @@ add_filter('upload_mimes', 'allow_svg_upload');
 ?>
 
 <?php
-// Функция для создания новых секций в административной панели на основе рубрик из "Записи"
 function create_category_sections()
 {
     $categories = get_categories(); // Получаем все рубрики
+    $position = 25; // Позиция новых секций
 
     foreach ($categories as $category) {
         // Проверяем, что рубрика не является "без рубрики"
         if ($category->slug !== 'uncategorized') {
             // Создаем новую секцию на основе названия рубрики
             $section = array(
-                'name' => $category->name,
-                'slug'  => 'edit.php?category_name=' . $category->slug,
+                'title' => $category->name,
+                'icon'  => 'dashicons-admin-post', // Иконка секции (можете изменить на другую)
+                'slug'  => 'edit.php?category_name=' . $category->slug . '&post_type=post',
             );
 
             // Добавляем секцию в административную панель
-            add_menu_page(
+            $page = add_menu_page(
                 $category->name,
                 $category->name,
                 'edit_posts',
                 $section['slug'],
                 '',
-                'dashicons-admin-post'
+                $section['icon'],
+                $position
             );
 
-            // Добавляем действие для автоматического назначения рубрики при создании записи
-            add_action('save_post', function ($post_id) use ($category) {
-                $post_type = get_post_type($post_id);
+            // Добавляем подменю с созданием новых записей
+            add_action('admin_menu', function () use ($section) {
+                add_submenu_page(
+                    $section['slug'],
+                    'Добавить новую',
+                    'Добавить новую',
+                    'edit_posts',
+                    'post-new.php?post_type=' . $section['slug']
+                );
 
-                if ($post_type === 'post') {
-                    wp_set_post_categories($post_id, array($category->term_id));
-                }
+                // Добавляем класс для выделения активной секции
+                add_action('admin_enqueue_scripts', function () use ($section) {
+                    global $pagenow;
+
+                    if (($pagenow === 'post-new.php' || $pagenow === 'edit.php') && isset($_GET['post_type']) && $_GET['post_type'] === $section['slug']) {
+                        echo '<style>#toplevel_page_' . $section['slug'] . ' > a.wp-has-submenu { font-weight: bold; }</style>';
+                    }
+                });
             });
+
+            $position += 1; // Увеличиваем позицию для следующей секции
         }
     }
 }
@@ -239,6 +254,12 @@ add_action('admin_menu', 'create_category_sections');
 
 
 
+
+
+?>
+
+
+<?php
 
 
 
