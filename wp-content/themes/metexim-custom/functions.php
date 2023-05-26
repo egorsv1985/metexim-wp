@@ -198,6 +198,48 @@ add_filter('upload_mimes', 'allow_svg_upload');
 ?>
 
 <?php
+// Функция для создания новых секций в административной панели на основе рубрик из "Записи"
+function create_category_sections()
+{
+    $categories = get_categories(); // Получаем все рубрики
+
+    foreach ($categories as $category) {
+        // Проверяем, что рубрика не является "без рубрики"
+        if ($category->slug !== 'uncategorized') {
+            // Создаем новую секцию на основе названия рубрики
+            $section = array(
+                'name' => $category->name,
+                'slug'  => 'edit.php?category_name=' . $category->slug,
+            );
+
+            // Добавляем секцию в административную панель
+            add_menu_page(
+                $category->name,
+                $category->name,
+                'edit_posts',
+                $section['slug'],
+                '',
+                'dashicons-admin-post'
+            );
+
+            // Добавляем действие для автоматического назначения рубрики при создании записи
+            add_action('save_post', function ($post_id) use ($category) {
+                $post_type = get_post_type($post_id);
+
+                if ($post_type === 'post') {
+                    wp_set_post_categories($post_id, array($category->term_id));
+                }
+            });
+        }
+    }
+}
+
+add_action('admin_menu', 'create_category_sections');
+
+
+
+
+
 
 
 ?>

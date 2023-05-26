@@ -279,15 +279,14 @@ document.addEventListener("DOMContentLoaded", function() {
           stickyItem.style.position = "fixed";
           stickyItem.style.bottom = "auto";
           stickyItem.style.top = `${headerHeight + stickyTop}px`;
-          // stickyItem.style.right = `${stickyItemRect.right}px`;         
-					stickyItemValues.right = `${stickyBlockItem.getBoundingClientRect().right}px`;
+          stickyItem.style.right = `${stickyItemRect.right}px`;
           stickyItem.style.width = `${stickyItem.offsetWidth}px`;
         } else if (scrollY > stickyItemBottom) {
           // Когда скролл находится ниже stickyItemBottom
           stickyItem.style.position = "relative";
           stickyItem.style.bottom = `${headerHeight + stickyTop}px`;
           stickyItem.style.top = "auto";
-          // stickyItem.style.right = `${stickyItemRect.left}px`;
+          stickyItem.style.right = `${stickyItemRect.left}px`;
           stickyItem.style.width = `${stickyItem.offsetWidth}px`;
         } else {
           // Когда скролл находится выше stickyItemTop
@@ -298,8 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
           stickyItem.style.width = "auto";
         }
       }
-      
-		
+
       window.addEventListener("scroll", handleScroll);
     });
   }
@@ -309,4 +307,5 @@ document.addEventListener("DOMContentLoaded", function() {
     handleStickyElements();
   }
 });
+
 
