@@ -790,18 +790,6 @@ body.popup-show::after {
   background-image: url("./img/icons/viber.svg");
 }
 
-.open .header__menu {
-  left: 0;
-  background-color: var(--bg-second-color);
-}
-.open .header__list {
-  gap: 20px;
-}
-.open .header__bottom {
-  display: flex;
-  width: 100vw;
-}
-
 @media only screen and (max-width: 991px) {
   .header .menu {
     left: -100%;
@@ -825,6 +813,18 @@ body.popup-show::after {
   .header .menu__item + .header .menu__item::after {
     display: none;
   }
+}
+
+.open .header__menu {
+  left: 0;
+  background-color: var(--bg-second-color);
+}
+.open .header__list {
+  gap: 20px;
+}
+.open .header__bottom {
+  display: flex;
+  width: 100vw;
 }
 
 .breadcrumb {

@@ -7,25 +7,27 @@
   <title><?php wp_title(); ?></title>
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" type="image/x-icon">
   <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=<ваш API-ключ>&lang=ru_RU" type="text/javascript"></script> -->
-    <?php $locations = explode("\n",get_field('metki-na-karte')); // получаем массив всех мест ?>
-    <script type="text/javascript">
-        ymaps.ready(init);
-        function init() {
-            var myMap = new ymaps.Map('map', {
-                center: [<?php echo explode(",", $locations[0])[2]; ?>, <?php echo explode(",", $locations[0])[3]; ?>],
-                zoom: 14
-            });
-          
-            <?php foreach ($locations as $index => $location) : ?>
-            var placeMark_<?php echo $index; ?> = new ymaps.Placemark([<?php echo explode(",", $location)[2]; ?>, <?php echo explode(",", $location)[3]; ?>], {
-                name: '<?php echo explode(",", $location)[0]; ?>',
-                address: '<?php echo explode(",", $location)[1]; ?>',
-                description: '',
-            });
-            myMap.geoObjects.add(placeMark_<?php echo $index; ?>);
-            <?php endforeach; ?>
-        }
-    </script>
+  <?php $locations = explode("\n", get_field('metki-na-karte')); // получаем массив всех мест 
+  ?>
+  <script type="text/javascript">
+    ymaps.ready(init);
+
+    function init() {
+      var myMap = new ymaps.Map('map', {
+        center: [<?php echo explode(",", $locations[0])[2]; ?>, <?php echo explode(",", $locations[0])[3]; ?>],
+        zoom: 14
+      });
+
+      <?php foreach ($locations as $index => $location) : ?>
+        var placeMark_<?php echo $index; ?> = new ymaps.Placemark([<?php echo explode(",", $location)[2]; ?>, <?php echo explode(",", $location)[3]; ?>], {
+          name: '<?php echo explode(",", $location)[0]; ?>',
+          address: '<?php echo explode(",", $location)[1]; ?>',
+          description: '',
+        });
+        myMap.geoObjects.add(placeMark_<?php echo $index; ?>);
+      <?php endforeach; ?>
+    }
+  </script>
   <?php wp_head(); ?>
 </head>
 
@@ -78,22 +80,22 @@
 
           <div class="col-3 col-lg-2 py-3 d-none d-md-block">
             <span class="d-block fs-14 text-info header__span">Мессенджеры</span>
-            <nav class="header__menu menu col-12 position-relative">
-              <?php
-              $menu_items = wp_get_nav_menu_items('Мессенджеры');
-              if ($menu_items) {
-                echo '<ul class="header__social-list social d-flex gap-2 ps-0 m-0">';
-                foreach ($menu_items as $item) {
-                  $icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
-                  echo '<li class="social__item">';
-                  echo '<a href="' . $item->url . '" class="social__link d-block" style="background: url(\'' . $icon_image . '\') center / cover no-repeat;">';
-                  echo '</a>';
-                  echo '</li>';
-                }
-                echo '</ul>';
+
+            <?php
+            $menu_items = wp_get_nav_menu_items('Мессенджеры');
+            if ($menu_items) {
+              echo '<ul class="header__social-list social d-flex gap-2 ps-0 m-0">';
+              foreach ($menu_items as $item) {
+                $icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
+                echo '<li class="social__item">';
+                echo '<a href="' . $item->url . '" class="social__link d-block" style="background: url(\'' . $icon_image . '\') center / cover no-repeat;">';
+                echo '</a>';
+                echo '</li>';
               }
-              ?>
-            </nav>
+              echo '</ul>';
+            }
+            ?>
+
           </div>
           <div class="col-10 col-sm-4 col-md-3 col-lg-2 py-2">
             <a class="header__btn fs-16 fw-500 btn col-2 d-block btn-transparent btn-outline-danger text-nowrap w-100 px-3 py-3" data-popup="#callback" href="#callback" role="button" title="Связаться с нами">Связаться с нами</a>

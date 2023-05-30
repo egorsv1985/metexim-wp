@@ -8,7 +8,6 @@ Version: 1.0
 License: GNU General Public License
 */
 
-
 @use "sass:math";
 
 $fontFamily: "Mulish";
@@ -1136,29 +1135,13 @@ body.popup-show::after {
     }
   }
 }
-
-.open {
-  .header {
-    &__menu {
-      left: 0;
-      background-color: var(--bg-second-color);
-    }
-    &__list {
-      gap: 20px;
-    }
-    &__bottom {
-      display: flex;
-      width: 100vw;
-    }
-  }
-}
-.header{
+.header {
   .menu {
     @include media(max, lg) {
       left: -100%;
       transition: all 0.5s ease-in-out;
     }
-  
+
     &__item + &__item {
       position: relative;
       &::after {
@@ -1176,10 +1159,25 @@ body.popup-show::after {
     }
   }
 }
-.breadcrumb{
-  margin: 0;
+.open {
+  .header {
+    &__menu {
+      left: 0;
+      background-color: var(--bg-second-color);
+    }
+    &__list {
+      gap: 20px;
+    }
+    &__bottom {
+      display: flex;
+      width: 100vw;
+    }
+  }
 }
 
+.breadcrumb {
+  margin: 0;
+}
 
 .promo {
   padding-top: 140px;
@@ -1227,8 +1225,6 @@ body.popup-show::after {
 }
 
 .banner {
-
-
   // .banner__box-svg
   &__box-svg {
     @include wh(60px);

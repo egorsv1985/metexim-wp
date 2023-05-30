@@ -64,104 +64,116 @@ get_header(); ?>
 	</section>
 
 	<section class="contacts py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="d-block mb-5">
-          <span
-            class="d-block fs-14 text-info contacts__span span span--black position-relative ps-4"
-            >Черный лом</span
-          >
-          <a href="tel:89990099603" class="d-block fs-16 fw-700">
-            <span class="contacts__span">8(999) 009 96 03 </span>
-          </a>
-        </div>
-        <div class="d-block mb-5">
-          <span
-            class="d-block fs-14 text-info contacts__span span span--office position-relative ps-4"
-            >Офис</span
-          >
-          <a href="tel:89213200011" class="d-block fs-16 fw-700">
-            <span class="contacts__span">8(921) 320 00 11</span>
-          </a>
-        </div>
-        <div class=" d-block">
-          <span
-            class="d-block fs-14 text-info contacts__span span span--mail position-relative ps-4"
-            >Почта</span
-          >
-          <a href="mailto:info@metexim.spb.ru" class="d-block fs-16 fw-700">
-            <span class="contacts__span">info@metexim.spb.ru</span>
-          </a>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="d-block mb-5">
-          <span
-            class="d-block fs-14 text-info contacts__span span span--color position-relative ps-4"
-            >Цветной лом</span
-          >
-          <a href="tel:89213207676" class="d-block fs-16 fw-700">
-            <span class="contacts__span">8(921) 320 76 76 </span>
-          </a>
-        </div>
-        <div class=" d-block mb-5">
-          <span class="d-block fs-14 text-info contacts__span">Мессенджеры</span>
-          <ul class="contacts__social-list social d-flex gap-2 ps-0 m-0">
-            <li class="social__item">
-              <a href="#" class="social__link social__link--telegram d-block">
-              </a>
-            </li>
-            <li class="social__item">
-              <a href="#" class="social__link social__link--whatsapp d-block">
-              </a>
-            </li>
-            <li class="social__item">
-              <a href="#" class="social__link social__link--viber d-block"> </a>
-            </li>
-          </ul>
-        </div>
-        <div class="d-block">
-          <span
-            class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4"
-            >Адрес офиса</span
-          >
-          <a href="#" class="d-block fs-16 fw-700">
-            <span class="contacts__span"
-              >г. Санкт-Петербург ул. Гапсальская, д.1, кор.2, лит. О, оф.
-              307</span
-            >
-          </a>
-        </div>
-      </div>
-      <div class="col-12 col-lg-6">
-        <span
-          class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4 mb-3"
-          >Пункты приема</span
-        >
-        <ul class="contacts__list">
-          <li class="mb-2">
-            <a href="#" class="fs-16 fw-700"
-              >Площадка г. Санкт-Петербург вн. тер. г. Морские ворота, остров
-              Вольный, д. 1
-            </a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="fs-16 fw-700"
-              >Площадка г. Санкт-Петербург проспект Большевиков, 56к4
-            </a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="fs-16 fw-700"
-              >Площадка г Колпино, тер. Ижорский завод, участок 20 (южнее дома
-              60), литера МГ
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-6 col-lg-3 mb-3">
+					<?php
+					$title = get_theme_mod('contacts_title_1', '');
+					$phone = get_theme_mod('contact_phone_1', '');
+					$icon = get_theme_mod('contact_icon_1', '');
+
+					$phone_clean = preg_replace('/\D/', '', $phone);
+					?>
+
+					<?php if (!empty($title) && !empty($phone)) : ?>
+						<div class="d-block mb-5">
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+						</div>
+					<?php endif; ?>
+
+
+					<?php
+					$title = get_theme_mod('contacts_title_3', '');
+					$phone = get_theme_mod('contact_phone_3', '');
+					$icon = get_theme_mod('contact_icon_3', '');
+
+					$phone_clean = preg_replace('/\D/', '', $phone);
+					?>
+
+					<?php if (!empty($title) && !empty($phone)) : ?>
+						<div class="d-block mb-5">
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+						</div>
+					<?php endif; ?>
+
+					<div class=" d-block">
+						<span class="d-block fs-14 text-info contacts__span span span--mail position-relative ps-4">Почта</span>
+						<?php if (get_theme_mod('emails')) : ?>
+							<div class="emails">
+								<a class="d-block fs-16 fw-700" href="mailto:<?php echo esc_html(get_theme_mod('emails')); ?>"><?php echo esc_html(get_theme_mod('emails')); ?></a>
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 col-lg-3 mb-3">
+					<?php
+					$title = get_theme_mod('contacts_title_2', '');
+					$phone = get_theme_mod('contact_phone_2', '');
+					$icon = get_theme_mod('contact_icon_2', '');
+
+					$phone_clean = preg_replace('/\D/', '', $phone);
+					?>
+
+					<?php if (!empty($title) && !empty($phone)) : ?>
+						<div class="d-block mb-5">
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+						</div>
+					<?php endif; ?>
+
+					<div class="d-block mb-5">
+						<span class="d-block fs-14 text-info contacts__span">Мессенджеры</span>
+
+						<?php
+						$menu_items = wp_get_nav_menu_items('Мессенджеры');
+						if ($menu_items) {
+							echo '<ul class="contacts__social-list social d-flex gap-2 ps-0 m-0">';
+							foreach ($menu_items as $item) {
+								$icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
+								echo '<li class="social__item">';
+								echo '<a href="' . $item->url . '" class="social__link d-block" style="background: url(\'' . $icon_image . '\') center / cover no-repeat;">';
+								echo '</a>';
+								echo '</li>';
+							}
+							echo '</ul>';
+						}
+						?>
+
+					</div>
+
+					<div class="d-block">
+						<span class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4">Адрес офиса</span>
+						<?php if (get_theme_mod('adress')) : ?>
+							<div class="adress">
+								<a class="d-block fs-16 fw-700" href="#"><?php echo esc_html(get_theme_mod('adress')); ?></a>
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6">
+					<span class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4 mb-3">Пункты приема</span>
+					<ul class="contacts__list">
+						<li class="mb-2">
+							<a href="#" class="fs-16 fw-700">Площадка г. Санкт-Петербург вн. тер. г. Морские ворота, остров
+								Вольный, д. 1
+							</a>
+						</li>
+						<li class="mb-2">
+							<a href="#" class="fs-16 fw-700">Площадка г. Санкт-Петербург проспект Большевиков, 56к4
+							</a>
+						</li>
+						<li class="mb-2">
+							<a href="#" class="fs-16 fw-700">Площадка г Колпино, тер. Ижорский завод, участок 20 (южнее дома
+								60), литера МГ
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<section class="valuation py-5">
 		<div class="container">

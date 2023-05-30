@@ -57,11 +57,11 @@
 						<a class="d-block fs-16 text-info text-nowrap mb-4" href="mailto:<?php echo esc_html(get_theme_mod('emails')); ?>"><?php echo esc_html(get_theme_mod('emails')); ?></a>
 					</div>
 				<?php endif; ?>
-				<nav class="header__menu menu col-12 position-relative">
+				
 					<?php
 					$menu_items = wp_get_nav_menu_items('Мессенджеры');
 					if ($menu_items) {
-						echo '<ul class="header__social-list social d-flex gap-2 ps-0 m-0">';
+						echo '<ul class="footer__social-list social d-flex gap-3 ps-0 m-0">';
 						foreach ($menu_items as $item) {
 							$icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
 							echo '<li class="social__item">';
@@ -72,7 +72,7 @@
 						echo '</ul>';
 					}
 					?>
-				</nav>
+				
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
 				<h4 class="fs-18 fw-600 mb-3">Виды приема металлов</h4>
