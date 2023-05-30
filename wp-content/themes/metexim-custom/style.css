@@ -803,15 +803,15 @@ body.popup-show::after {
 }
 
 @media only screen and (max-width: 991px) {
-  .menu {
+  .header .menu {
     left: -100%;
     transition: all 0.5s ease-in-out;
   }
 }
-.menu__item + .menu__item {
+.header .menu__item + .header .menu__item {
   position: relative;
 }
-.menu__item + .menu__item::after {
+.header .menu__item + .header .menu__item::after {
   content: "";
   display: block;
   background-color: var(--text-second-color);
@@ -822,9 +822,13 @@ body.popup-show::after {
   top: -5px;
 }
 @media only screen and (max-width: 991px) {
-  .menu__item + .menu__item::after {
+  .header .menu__item + .header .menu__item::after {
     display: none;
   }
+}
+
+.breadcrumb {
+  margin: 0;
 }
 
 .promo {

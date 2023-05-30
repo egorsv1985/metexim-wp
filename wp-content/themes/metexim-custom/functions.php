@@ -4,7 +4,7 @@ function metexim_custom_enqueue_styles()
 {
     wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.css');
     wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
-    
+
     wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_styles');
@@ -27,6 +27,9 @@ function metexim_custom_register_menus()
 {
     register_nav_menus(array(
         'primary-menu' => 'Основное меню',
+        'vidy-priema-metallov' => 'Виды приема металлов',
+        'uslugi' => 'Услуги',
+        'oborudovanie' => 'Оборудование',
     ));
 }
 add_action('init', 'metexim_custom_register_menus');
@@ -260,128 +263,264 @@ add_action('admin_menu', 'create_category_sections');
 ?>
 
 <?php
-function my_theme_customize_register($wp_customize) {
+// Регистрируем функцию my_theme_customize_register для работы с настройками темы WordPress
+add_action('customize_register', 'my_theme_customize_register');
+
+function my_theme_customize_register($wp_customize)
+{
     // Добавляем раздел "Настройки темы"
     $wp_customize->add_section('my_theme_settings', array(
-      'title' => 'Логотип',
-      'priority' => 200,
+        'title' => 'Логотип',
+        'priority' => 200,
     ));
-  
+
     // Добавляем поле "Логотип"
     $wp_customize->add_setting('custom_logo', array(
-      'default' => '',
-      'sanitize_callback' => 'absint',
+        'default' => '',
+        'sanitize_callback' => 'absint',
     ));
-  
+
     $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'custom_logo_control', array(
-      'label' => 'Логотип',
-      'section' => 'my_theme_settings',
-      'settings' => 'custom_logo',
-      'mime_type' => 'image',
+        'label' => 'Логотип',
+        'section' => 'my_theme_settings',
+        'settings' => 'custom_logo',
+        'mime_type' => 'image',
     )));
-  
+
     // Добавляем поле "Режим работы"
     $wp_customize->add_setting('working_hours', array(
-      'default' => '',
-      'sanitize_callback' => 'sanitize_text_field',
-    ));
-  
-    $wp_customize->add_control('working_hours_control', array(
-      'label' => 'Режим работы',
-      'section' => 'my_theme_settings',
-      'settings' => 'working_hours',
-      'type' => 'text',
-    ));
-  
-  // Добавляем секцию "Контакты"
-  $wp_customize->add_section('contacts_section', array(
-    'title' => 'Контакты',
-    'priority' => 201,
-  ));
-
-  // Добавляем поле "Название контакта"
-  $wp_customize->add_setting( 'mytheme_contacts_title', array(
-        'default'           => '',
+        'default' => '',
         'sanitize_callback' => 'sanitize_text_field',
-    ) );
+    ));
 
-  $wp_customize->add_control('contact_name_control', array(
-    'label' => 'Название контакта',
-    'section' => 'contacts_section',
-    'settings' => 'contact_name',
-    'type' => 'text',
-    'description' => 'Введите название контакта',
-  ));
+    $wp_customize->add_control('working_hours_control', array(
+        'label' => 'Режим работы',
+        'section' => 'my_theme_settings',
+        'settings' => 'working_hours',
+        'type' => 'text',
+    ));
 
-  $wp_customize->add_control( 'mytheme_contacts_title', array(
-    'label'    => __( 'Title', 'mytheme' ),
-    'section'  => 'mytheme_contacts_section',
-    'settings' => 'mytheme_contacts_title',
-    'type'     => 'text',
-    
-) );
+    // Добавляем поле "Почта"
+    $wp_customize->add_setting('emails', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('emails_control', array(
+        'label' => 'Почта',
+        'section' => 'my_theme_settings',
+        'settings' => 'emails',
+        'type' => 'text',
+    ));
+    // Добавляем поле "Адрес"
+    $wp_customize->add_setting('adress', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('adress_control', array(
+        'label' => 'Адрес',
+        'section' => 'my_theme_settings',
+        'settings' => 'adress',
+        'type' => 'text',
+    ));
+
+    // Добавляем поле "ИНН"
+    $wp_customize->add_setting('inn', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('inn_control', array(
+        'label' => 'ИНН',
+        'section' => 'my_theme_settings',
+        'settings' => 'inn',
+        'type' => 'text',
+    ));
+
+    // Добавляем поле "КПП"
+    $wp_customize->add_setting('kpp', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('kpp_control', array(
+        'label' => 'КПП',
+        'section' => 'my_theme_settings',
+        'settings' => 'kpp',
+        'type' => 'text',
+    ));
+
+    // Добавляем секцию "Контакты"
+    $wp_customize->add_section('contacts_section', array(
+        'title' => 'Контакты',
+        'priority' => 201,
+    ));
 
 
-   // Добавляем поле "Телефон контакта"
-   $wp_customize->add_setting('contact_phone', array(
-    'default' => '',
-    'sanitize_callback' => 'sanitize_text_field',
-  ));
 
-  $wp_customize->add_control('contact_phone_control', array(
-    'label' => 'Телефон контакта',
-    'section' => 'contacts_section',
-    'settings' => 'contact_phone',
-    'type' => 'tel',
-    'description' => 'Введите телефон контакта',
-  ));
-
-   // Добавляем поле "Количество контактов"
-   $wp_customize->add_setting('contact_count', array(
-    'default' => 1,
-    'sanitize_callback' => 'absint',
-  ));
-
-  $wp_customize->add_control('contact_count_control', array(
-    'label' => 'Количество контактов',
-    'section' => 'contacts_section',
-    'settings' => 'contact_count',
-    'type' => 'number',
-    'description' => 'Введите количество контактов для отображения в хедере сайта',
-    'input_attrs' => array(
-      'min' => 1,
-      'max' => 5,
-      'step' => 1,
-    ),
-  ));
-
-  // Добавляем поле "Иконка контакта"
-  $wp_customize->add_setting('contact_icon', array(
-    'default' => '',
-    'sanitize_callback' => 'sanitize_text_field',
-  ));
-
-  $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'contact_icon_control', array(
-    'label' => 'Иконка',
-    'section' => 'contacts_section',
-    'settings' => 'contact_icon',
-    'description' => 'Выберите изображение для использования в качестве иконки контакта',
-    'mime_type' => 'image',
-    
-  )));
-  
-  // Добавляем обработчик JavaScript для добавления/удаления контактов
-  wp_enqueue_script('contact-script', get_template_directory_uri() . '/js/contact-script.js', array('jquery', 'customize-controls'), '1.0', true);
-
-  // Добавляем стили для полей контактов
-  wp_enqueue_style('contact-styles', get_template_directory_uri() . '/css/contact-styles.css');
+    // Добавляем контакты
+    for ($i = 1; $i <= 3; $i++) {
+        add_contact_fields($wp_customize, $i, ($i === 1) ? true : false);
+    }
 }
 
-// Добавляем скрипт для динамического добавления/удаления полей контактов
-function my_theme_customize_controls_enqueue_scripts() {
-  wp_enqueue_script('contact-controls-script', get_template_directory_uri() . '/js/contact-controls-script.js', array('jquery', 'customize-controls'), '1.0', true);
+function add_contact_fields($wp_customize, $count, $is_first = false)
+{
+
+    // Добавляем кнопку добавления контакта
+    $wp_customize->add_setting('add_contact', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Добавляем кнопку добавления контакта
+    $wp_customize->add_control('add_contact_control', array(
+        'label' => 'Добавить контакт',
+        'section' => 'contacts_section',
+        'settings' => 'add_contact_control',
+        'type' => 'button',
+        'class' => 'add-contact',
+    ));
+
+    // Добавляем поле "Название контакта"
+    $wp_customize->add_setting('contacts_title_' . $count, array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('contacts_title_' . $count . '_control', array(
+        'label' => 'Название контакта',
+        'section' => 'contacts_section',
+        'settings' => 'contacts_title_' . $count,
+        'type' => 'text',
+        'description' => 'Введите название контакта',
+    ));
+
+    // Добавляем поле "Телефон контакта"
+    $wp_customize->add_setting('contact_phone_' . $count, array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+
+    $wp_customize->add_control('contact_phone_' . $count . '_control', array(
+        'label' => 'Телефон контакта',
+        'section' => 'contacts_section',
+        'settings' => 'contact_phone_' . $count,
+        'type' => 'tel',
+        'description' => 'Введите телефон контакта',
+    ));
+
+    // Добавляем поле "Иконка контакта"
+    $wp_customize->add_setting('contact_icon_' . $count, array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'contact_icon_' . $count . '_control', array(
+        'label' => 'Иконка контакта',
+        'section' => 'contacts_section',
+        'settings' => 'contact_icon_' . $count,
+        'mime_type' => 'image',
+        'description' => 'Выберите изображение для использования в качестве иконки контакта',
+    )));
+
+    if (!$is_first) {
+        // Добавляем кнопку удаления контакта, если этот контакт не первый
+        $wp_customize->add_control('remove_contact_' . $count . '_control', array(
+            'label' => 'Удалить контакт',
+            'section' => 'contacts_section',
+            'type' => 'button',
+            'class' => 'remove-contact',
+            'data-contact-number' => $count,
+        ));
+    }
 }
 
-add_action('customize_register', 'my_theme_customize_register');
-add_action('customize_controls_enqueue_scripts', 'my_theme_customize_controls_enqueue_scripts');
-?>        
+// Добавляем скрипт для обработки добавления и удаления контактов
+$script = "
+    var contacts_count = " . $count . ";
+
+    jQuery(document).on('click', '.add-contact', function() {
+        if (contacts_count >= 10) {
+            alert('Максимальное количество контактов - 10');
+            return;
+        }
+        contacts_count++;
+        var new_contact_fields = jQuery(this).parent().parent().append('<div class=\"contact-' + contacts_count + '\"></div>');
+        var new_contact = jQuery('.contact-' + contacts_count);
+        new_contact.append('<label for=\"contacts_title_' + contacts_count + '_control\">Название контакта</label><br>' +
+            '<input type=\"text\" name=\"contacts_title_' + contacts_count + '\" id=\"contacts_title_' + contacts_count + '_control\" /><br>' +
+            'Телефон контакта<br>' +
+            '<input type=\"tel\" name=\"contact_phone_' + contacts_count + '\" id=\"contact_phone_' + contacts_count + '_control\" /><br>' +
+            'Иконка контакта<br>' +
+            '<img src=\"\" class=\"icon-preview-' + contacts_count + '\" style=\"max-width:100px;display:none\"/>' +
+            '<input type=\"hidden\" name=\"contact_icon_' + contacts_count + '\" id=\"contact_icon_' + contacts_count + '_control\" />' +
+            '<button class=\"remove-contact\" data-contact-number=\"' + contacts_count + '\">Удалить контакт</button>');
+        new_contact.find('input[type=\"file\"]').change(function() {
+            var input = jQuery(this),
+                img = input.next('.icon-preview-' + contacts_count),
+                file = input[0].files[0],
+                reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(file);
+            img.show();
+        });
+
+        return false;
+    });
+
+    jQuery(document).on('click', '.remove-contact', function() {
+        var contact_number = jQuery(this).data('contact-number');
+
+        if (contact_number > 1) {
+            jQuery('.contact-' + contact_number).remove();
+        }
+
+        return false;
+    });
+";
+
+wp_add_inline_script('customize-controls', $script);
+?>
+
+<?php
+function add_custom_classes_to_breadcrumbs($output)
+{
+
+
+    // Добавление дополнительных классов к каждому <nav> элементу
+    $output = str_replace('<nav', '<nav class="d-inline-flex mb-0"', $output);
+    $output = str_replace('</nav>', '</nav>', $output);
+
+    // Регулярное выражение для поиска <span> элементов в выводе Yoast SEO
+    $pattern = '/<span[^>]+>/';
+
+    // Добавление дополнительных классов к каждому <span> элементу
+    $output = preg_replace_callback($pattern, function ($matches) {
+        $class_attr = 'class="text-danger fs-14 fw-500"';
+        return str_replace('<span ', '<span ' . $class_attr . ' ', $matches[0]);
+    }, $output);
+
+    // Регулярное выражение для поиска <a> элементов в выводе Yoast SEO
+    $pattern = '/<a[^>]+>/';
+
+    // Добавление дополнительных классов к каждому <a> элементу
+    $output = preg_replace_callback($pattern, function ($matches) {
+        $class_attr = 'class="fs-14 fw-500"';
+        return str_replace('<a ', '<a ' . $class_attr . ' ', $matches[0]);
+    }, $output);
+
+
+
+    return $output;
+}
+
+add_filter('wpseo_breadcrumb_output', 'add_custom_classes_to_breadcrumbs');
+
+?>

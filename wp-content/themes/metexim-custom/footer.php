@@ -2,76 +2,133 @@
 	<div class="container bg-secondary rounded-3 p-5">
 		<div class="row mb-4">
 			<div class="col-12 col-sm-6 col-lg-3">
-				<a href="index.html" class="footer__logo logo d-flex align-items-center">
-					<img src="img/icons/logo.svg" alt="logo" class="mw-100 logo__img">
-				</a>
-				<span class="d-block fs-14 text-info text-nowrap">ИНН 7838342742</span>
-				<span class="d-block fs-14 text-info text-nowrap">КПП 784001001</span>
+				<?php if (get_theme_mod('custom_logo')) : ?>
+					<a href="<?php echo esc_url(home_url('/')); ?>" class="header__logo logo d-flex align-items-center">
+						<img src="<?php echo esc_url(wp_get_attachment_url(get_theme_mod('custom_logo'))); ?>" alt="<?php bloginfo('name'); ?>">
+					</a>
+				<?php else : ?>
+					<a href="<?php echo esc_url(home_url('/')); ?>" class="header__logo logo d-flex align-items-center">
+						<?php bloginfo('name'); ?>
+					</a>
+				<?php endif; ?>
+				<?php if (get_theme_mod('inn')) : ?>
+					<div class="inn">
+						<span class="d-block fs-14 text-info text-nowrap">ИНН <?php echo esc_html(get_theme_mod('inn')); ?></span>
+					</div>
+				<?php endif; ?>
+				<?php if (get_theme_mod('kpp')) : ?>
+					<div class="kpp">
+						<span class="d-block fs-14 text-info text-nowrap">КПП <?php echo esc_html(get_theme_mod('kpp')); ?></span>
+					</div>
+				<?php endif; ?>
 			</div>
-			<div class="col-12 col-sm-6 col-lg-3 pt-2">
-				<span class="d-block fs-14 footer__span span span--black position-relative ps-4 mb-2">Черный лом</span>
-				<a href="tel:89990099603" class="d-block fs-20 fw-700">
-					<span class="footer__span">8(999) 009 96 03 </span>
-				</a>
-			</div>
-			<div class="col-12 col-sm-6 col-lg-3 pt-2">
-				<span class="d-block fs-14 footer__span span span--color position-relative ps-4 mb-2">Цветной лом</span>
-				<a href="tel:89213207676" class="d-block fs-20 fw-700">
-					<span class="footer__span">8(921) 320 76 76 </span>
-				</a>
-			</div>
-			<div class="col-12 col-sm-6 col-lg-3 pt-2">
-				<span class="d-block fs-14 footer__span span span--office position-relative ps-4 mb-2">Офис</span>
-				<a href="tel:89213200011" class="d-block fs-20 fw-700">
-					<span class="footer__span">8(921) 320 00 11</span>
-				</a>
-			</div>
+
+			<?php for ($i = 1; $i <= 3; $i++) : ?>
+				<?php
+				// Получаем значения полей для текущего контакта
+				$title = get_theme_mod('contacts_title_' . $i, '');
+				$phone = get_theme_mod('contact_phone_' . $i, '');
+				$icon = get_theme_mod('contact_icon_' . $i, '');
+
+				// Очищаем значение телефона от всех символов, кроме цифр
+				$phone_clean = preg_replace('/\D/', '', $phone);
+				?>
+
+				<?php if (!empty($title) && !empty($phone)) : ?>
+					<div class="col-12 col-sm-6 col-lg-3 pt-2">
+						<span class="d-block fs-14 text-info footer__span span ps-4 mb-2" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
+						<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+					</div>
+				<?php endif; ?>
+			<?php endfor; ?>
+
 		</div>
 		<div class="row mb-5">
 			<div class="col-12 col-sm-6 col-lg-3">
 				<h4 class="fs-18 fw-600 mb-3">Контакты</h4>
-				<span class="d-block fs-16 text-info text-nowrap mb-2">Работаем с 8:00 до 20:00</span>
-				<a class="d-block fs-16 text-info text-nowrap mb-4" href="mailto:info@metexim.spb.ru">info@metexim.spb.ru</a>
-				<ul class="footer__social-list social d-flex gap-3 ps-0 m-0">
-					<li class="social__item">
-						<a href="#" class="social__link social__link--telegram d-block">
-						</a>
-					</li>
-					<li class="social__item">
-						<a href="#" class="social__link social__link--whatsapp d-block">
-						</a>
-					</li>
-					<li class="social__item">
-						<a href="#" class="social__link social__link--viber d-block"> </a>
-					</li>
-				</ul>
+				<?php if (get_theme_mod('working_hours')) : ?>
+					<div class="working-hours">
+						<span class="d-block fs-14 text-info text-nowrap"><?php echo esc_html(get_theme_mod('working_hours')); ?></span>
+					</div>
+				<?php endif; ?>
+
+				<?php if (get_theme_mod('emails')) : ?>
+					<div class="emails">
+						<a class="d-block fs-16 text-info text-nowrap mb-4" href="mailto:<?php echo esc_html(get_theme_mod('emails')); ?>"><?php echo esc_html(get_theme_mod('emails')); ?></a>
+					</div>
+				<?php endif; ?>
+				<nav class="header__menu menu col-12 position-relative">
+					<?php
+					$menu_items = wp_get_nav_menu_items('Мессенджеры');
+					if ($menu_items) {
+						echo '<ul class="header__social-list social d-flex gap-2 ps-0 m-0">';
+						foreach ($menu_items as $item) {
+							$icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
+							echo '<li class="social__item">';
+							echo '<a href="' . $item->url . '" class="social__link d-block" style="background: url(\'' . $icon_image . '\') center / cover no-repeat;">';
+							echo '</a>';
+							echo '</li>';
+						}
+						echo '</ul>';
+					}
+					?>
+				</nav>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
 				<h4 class="fs-18 fw-600 mb-3">Виды приема металлов</h4>
-				<ul class="ps-0 d-flex flex-column gap-2">
-					<li><a href="#" class="fs-16 text-info">Прием лома металлов</a></li>
-					<li><a href="#" class="fs-16 text-info">Чёрные металлы</a></li>
-					<li><a href="#" class="fs-16 text-info">Цветные металлы</a></li>
-					<li><a href="#" class="fs-16 text-info">Легированная сталь</a></li>
-				</ul>
+
+				<nav class="header__menu menu col-12 position-relative">
+					<?php
+					$menu_items = wp_get_nav_menu_items('Виды приема металлов');
+					if ($menu_items) {
+						echo '<ul class="ps-0 d-flex flex-column gap-2">';
+						foreach ($menu_items as $item) {
+							echo '<li>';
+							echo '<a href="' . $item->url . '" class="fs-16 text-info">' . $item->title . '</a>';
+							echo '</li>';
+						}
+						echo '</ul>';
+					}
+					?>
+				</nav>
+
+
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
 				<h4 class="fs-18 fw-600 mb-3">Услуги</h4>
-				<ul class="ps-0 d-flex flex-column gap-2">
-					<li><a href="#" class="fs-16 text-info">Демонтаж металлолома</a></li>
-					<li><a href="#" class="fs-16 text-info">Вывоз металлолома</a></li>
-					<li>
-						<a href="#" class="fs-16 text-info">Складирование металлолома</a>
-					</li>
-				</ul>
+				<nav class="header__menu menu col-12 position-relative">
+					<?php
+					$menu_items = wp_get_nav_menu_items('Услуги');
+					if ($menu_items) {
+						echo '<ul class="ps-0 d-flex flex-column gap-2">';
+						foreach ($menu_items as $item) {
+							echo '<li>';
+							echo '<a href="' . $item->url . '" class="fs-16 text-info">' . $item->title . '</a>';
+							echo '</li>';
+						}
+						echo '</ul>';
+					}
+					?>
+				</nav>
+
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
 				<h4 class="fs-18 fw-600 mb-3">Оборудование</h4>
-				<ul class="ps-0 d-flex flex-column gap-2">
-					<li><a href="#" class="fs-16 text-info">Радиаторы</a></li>
-					<li><a href="#" class="fs-16 text-info">Станки</a></li>
-					<li><a href="#" class="fs-16 text-info">Двигатели</a></li>
-				</ul>
+				<nav class="header__menu menu col-12 position-relative">
+					<?php
+					$menu_items = wp_get_nav_menu_items('Оборудование');
+					if ($menu_items) {
+						echo '<ul class="ps-0 d-flex flex-column gap-2">';
+						foreach ($menu_items as $item) {
+							echo '<li>';
+							echo '<a href="' . $item->url . '" class="fs-16 text-info">' . $item->title . '</a>';
+							echo '</li>';
+						}
+						echo '</ul>';
+					}
+					?>
+				</nav>
+
 			</div>
 		</div>
 

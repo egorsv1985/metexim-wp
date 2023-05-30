@@ -171,8 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document.documentElement.classList.add(t);
 });
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
   // Функция определения направления прокрутки страницы
   function detectScrollDirection() {
@@ -214,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Функция определения направления прокрутки страницы
   function detectScrollDirection() {
     const body = document.body;
@@ -230,11 +228,17 @@ document.addEventListener("DOMContentLoaded", function() {
         body.classList.remove(scrollUpClass);
         body.classList.remove(scrollDownClass);
       } else {
-        if (currentScrollPosition > lastScrollPosition && !body.classList.contains(scrollDownClass)) {
+        if (
+          currentScrollPosition > lastScrollPosition &&
+          !body.classList.contains(scrollDownClass)
+        ) {
           // Если скролл вниз и нет класса scroll-down, добавить класс scroll-down и удалить класс scroll-up
           body.classList.remove(scrollUpClass);
           body.classList.add(scrollDownClass);
-        } else if (currentScrollPosition < lastScrollPosition && body.classList.contains(scrollDownClass)) {
+        } else if (
+          currentScrollPosition < lastScrollPosition &&
+          body.classList.contains(scrollDownClass)
+        ) {
           // Если скролл вверх и есть класс scroll-down, добавить класс scroll-up и удалить класс scroll-down
           body.classList.remove(scrollDownClass);
           body.classList.add(scrollUpClass);
@@ -256,11 +260,13 @@ document.addEventListener("DOMContentLoaded", function() {
   function handleStickyElements() {
     const elements = document.querySelectorAll("[data-sticky]");
 
-    elements.forEach(element => {
+    elements.forEach((element) => {
       const stickyTop = parseInt(element.dataset.stickyTop) || 0;
       const stickyBottom = parseInt(element.dataset.stickyBottom) || 0;
       const isHeaderSticky = element.hasAttribute("data-sticky-header");
-      const headerHeight = isHeaderSticky ? document.querySelector("header.header").offsetHeight : 0;
+      const headerHeight = isHeaderSticky
+        ? document.querySelector("header.header").offsetHeight
+        : 0;
       const stickyItem = element.querySelector("[data-sticky-item]");
 
       if (!stickyItem) {
@@ -271,8 +277,13 @@ document.addEventListener("DOMContentLoaded", function() {
       function handleScroll() {
         const scrollY = window.scrollY;
         const stickyItemRect = stickyItem.getBoundingClientRect();
-        const stickyItemTop = stickyItemRect.top + scrollY - (headerHeight + stickyTop);
-        const stickyItemBottom = element.offsetHeight + element.getBoundingClientRect().top + scrollY - (headerHeight + stickyItem.offsetHeight + stickyBottom);
+        const stickyItemTop =
+          stickyItemRect.top + scrollY - (headerHeight + stickyTop);
+        const stickyItemBottom =
+          element.offsetHeight +
+          element.getBoundingClientRect().top +
+          scrollY -
+          (headerHeight + stickyItem.offsetHeight + stickyBottom);
 
         if (scrollY >= stickyItemTop && scrollY <= stickyItemBottom) {
           // Когда скролл находится внутри диапазона stickyItemTop и stickyItemBottom
@@ -307,5 +318,3 @@ document.addEventListener("DOMContentLoaded", function() {
     handleStickyElements();
   }
 });
-
-

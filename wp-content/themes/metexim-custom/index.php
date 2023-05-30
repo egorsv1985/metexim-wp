@@ -209,34 +209,38 @@ get_header(); ?>
             </div>
           </div>
           <div class="col-12 col-lg-4 p-2 p-lg-4 d-flex flex-column justify-content-between gap-3">
-            <a class="banner__link d-flex gap-3" href="tel:+89990099603">
-              <span class="banner__box-svg rounded-circle d-flex justify-content-center align-items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/img/icons/tel.svg" alt="tel" class="banner__svg" width="30" height="30">
-              </span>
-              <span class="d-flex flex-column">
-                <span class="fs-14 text-white mb-1">Черный лом</span>
-                <span class="fs-24 fw-700 text-white">8(999) 009 96 03</span>
-              </span>
-            </a>
-            <a class="banner__link d-flex gap-3" href="tel:+89213207676">
-              <span class="banner__box-svg rounded-circle d-flex justify-content-center align-items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/img/icons/tel.svg" alt="tel" class="banner__svg" width="30" height="30">
-              </span>
-              <span class="d-flex flex-column">
-                <span class="fs-14 text-white mb-1">Цветной лом</span>
-                <span class="fs-24 fw-700 text-white">8(921) 320 76 76</span>
-              </span>
-            </a>
-            <a class="banner__link d-flex gap-3" href="tel:+89213200011">
-              <span class="banner__box-svg rounded-circle d-flex justify-content-center align-items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/img/icons/tel.svg" alt="tel" class="banner__svg" width="30" height="30">
-              </span>
-              <span class="d-flex flex-column">
-                <span class="fs-14 text-white mb-1">Офис</span>
-                <span class="fs-24 fw-700 text-white">8(921) 320 00 11</span>
-              </span>
-            </a>
+            <?php for ($i = 1; $i <= 3; $i++) : ?>
+              <?php
+              // Получаем значения полей для текущего контакта
+              $title = get_theme_mod('contacts_title_' . $i, '');
+              $phone = get_theme_mod('contact_phone_' . $i, '');
+
+
+              // Очищаем значение телефона от всех символов, кроме цифр
+              $phone_clean = preg_replace('/\D/', '', $phone);
+              ?>
+
+              <?php if (!empty($title) && !empty($phone)) : ?>
+
+                <a class="banner__link d-flex gap-3" href="tel:<?php echo $phone_clean; ?>">
+                  <span class="banner__box-svg rounded-circle d-flex justify-content-center align-items-center">
+                    <img src="<?php echo get_template_directory_uri(); ?>/img/icons/tel.svg" alt="tel" class="banner__svg" width="30" height="30">
+                  </span>
+
+
+                  <span class="d-flex flex-column">
+                    <span class="fs-14 text-white mb-1"><?php echo esc_html($title); ?></span>
+                    <span class="fs-24 fw-700 text-white"><?php echo esc_html($phone); ?></span>
+                  </span>
+                </a>
+
+
+
+
+              <?php endif; ?>
+            <?php endfor; ?>
           </div>
+
         </div>
 
       </div>

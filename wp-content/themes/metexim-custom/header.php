@@ -6,7 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php wp_title(); ?></title>
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" type="image/x-icon">
-
+  <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=<ваш API-ключ>&lang=ru_RU" type="text/javascript"></script> -->
+    <?php $locations = explode("\n",get_field('metki-na-karte')); // получаем массив всех мест ?>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        function init() {
+            var myMap = new ymaps.Map('map', {
+                center: [<?php echo explode(",", $locations[0])[2]; ?>, <?php echo explode(",", $locations[0])[3]; ?>],
+                zoom: 14
+            });
+          
+            <?php foreach ($locations as $index => $location) : ?>
+            var placeMark_<?php echo $index; ?> = new ymaps.Placemark([<?php echo explode(",", $location)[2]; ?>, <?php echo explode(",", $location)[3]; ?>], {
+                name: '<?php echo explode(",", $location)[0]; ?>',
+                address: '<?php echo explode(",", $location)[1]; ?>',
+                description: '',
+            });
+            myMap.geoObjects.add(placeMark_<?php echo $index; ?>);
+            <?php endforeach; ?>
+        }
+    </script>
   <?php wp_head(); ?>
 </head>
 
@@ -35,28 +54,28 @@
 
 
 
-          <div class="col-2 py-3 d-none d-lg-block" style="background: url('<?php echo get_theme_mod('mytheme_contacts_image'); ?>') center / cover no-repeat;">
-            <span class="d-block fs-14 text-info header__span span position-relative ps-4"><?php echo esc_html(get_theme_mod('mytheme_contacts_title', '')); ?></span>
-            <a href="tel:<?php echo esc_attr(get_theme_mod('mytheme_contacts_phone', '')); ?>" class="d-block fs-16 fw-700"><?php echo esc_html(get_theme_mod('mytheme_contacts_phone', '')); ?></a>
-          </div>
+          <?php for ($i = 1; $i <= 3; $i++) : ?>
+            <?php
+            // Получаем значения полей для текущего контакта
+            $title = get_theme_mod('contacts_title_' . $i, '');
+            $phone = get_theme_mod('contact_phone_' . $i, '');
+            $icon = get_theme_mod('contact_icon_' . $i, '');
+
+            // Очищаем значение телефона от всех символов, кроме цифр
+            $phone_clean = preg_replace('/\D/', '', $phone);
+            ?>
+
+            <?php if (!empty($title) && !empty($phone)) : ?>
+              <div class="col-2 py-3 d-none d-lg-block">
+                <span class="d-block fs-14 text-info header__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
+                <a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+              </div>
+            <?php endif; ?>
+          <?php endfor; ?>
 
 
-          <div class="col-2 py-3 d-none d-lg-block">
-            <span class="d-block fs-14 text-info header__span span span--black position-relative ps-4">Черный лом</span>
-            <a href="tel:89990099603" class="d-block fs-16 fw-700">8(999) 009 96 03</a>
-          </div>
-          <div class="col-2 py-3 d-none d-lg-block">
-            <span class="d-block fs-14 text-info header__span span span--color position-relative ps-4">Цветной лом</span>
-            <a href="tel:89213207676" class="d-block fs-16 fw-700">
-              <span class="header__span">8(921) 320 76 76 </span>
-            </a>
-          </div>
-          <div class="col-2 py-3 d-none d-lg-block">
-            <span class="d-block fs-14 text-info header__span span span--office position-relative ps-4">Офис</span>
-            <a href="tel:89213200011" class="d-block fs-16 fw-700">
-              <span class="header__span">8(921) 320 00 11</span>
-            </a>
-          </div>
+
+
           <div class="col-3 col-lg-2 py-3 d-none d-md-block">
             <span class="d-block fs-14 text-info header__span">Мессенджеры</span>
             <nav class="header__menu menu col-12 position-relative">
