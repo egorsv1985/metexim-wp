@@ -524,3 +524,59 @@ function add_custom_classes_to_breadcrumbs($output)
 add_filter('wpseo_breadcrumb_output', 'add_custom_classes_to_breadcrumbs');
 
 ?>
+
+<?php
+add_action( 'add_meta_boxes', 'add_page_image_box' );
+function add_page_image_box() {
+    add_meta_box(
+        'page_image_box',
+        __( 'Page Image', 'textdomain' ),
+        'page_image_box',
+        'page',
+        'side',
+        'default'
+    );
+}
+
+function page_image_box( $post ) {
+    wp_nonce_field( basename( __FILE__ ), 'page_image_box_nonce' );
+
+    $value = get_post_meta( $post->ID, '_page_image', true );
+
+    echo '<label for="page_image">';
+    _e( 'Upload an image for this page', 'textdomain' );
+    echo '</label> ';
+    echo '<input type="text" id="page_image" name="page_image" value="' . esc_attr( $value ) . '" />';
+    echo '<input type="button" id="page_image_button" class="button" value="' . __( 'Choose Image', 'textdomain' ) . '" />';
+}
+?>
+
+<?php
+add_action( 'save_post', 'save_page_image' );
+function save_page_image( $post_id ) {
+    if ( ! isset( $_POST['page_image_box_nonce'] ) || ! wp_verify_nonce( $_POST['page_image_box_nonce'], basename( __FILE__ ) ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) {
+            return;
+        }
+    } else {
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+    }
+
+    if ( ! isset( $_POST['page_image'] ) ) {
+        return;
+    }
+
+    $image_url = sanitize_text_field( $_POST['page_image'] );
+    update_post_meta( $post_id, '_page_image', $image_url );
+}
+?>
