@@ -4,6 +4,7 @@ function metexim_custom_enqueue_styles()
 {
     wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.css');
     wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
+    
     wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_styles');
@@ -258,9 +259,129 @@ add_action('admin_menu', 'create_category_sections');
 
 ?>
 
-
 <?php
+function my_theme_customize_register($wp_customize) {
+    // Добавляем раздел "Настройки темы"
+    $wp_customize->add_section('my_theme_settings', array(
+      'title' => 'Логотип',
+      'priority' => 200,
+    ));
+  
+    // Добавляем поле "Логотип"
+    $wp_customize->add_setting('custom_logo', array(
+      'default' => '',
+      'sanitize_callback' => 'absint',
+    ));
+  
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'custom_logo_control', array(
+      'label' => 'Логотип',
+      'section' => 'my_theme_settings',
+      'settings' => 'custom_logo',
+      'mime_type' => 'image',
+    )));
+  
+    // Добавляем поле "Режим работы"
+    $wp_customize->add_setting('working_hours', array(
+      'default' => '',
+      'sanitize_callback' => 'sanitize_text_field',
+    ));
+  
+    $wp_customize->add_control('working_hours_control', array(
+      'label' => 'Режим работы',
+      'section' => 'my_theme_settings',
+      'settings' => 'working_hours',
+      'type' => 'text',
+    ));
+  
+  // Добавляем секцию "Контакты"
+  $wp_customize->add_section('contacts_section', array(
+    'title' => 'Контакты',
+    'priority' => 201,
+  ));
+
+  // Добавляем поле "Название контакта"
+  $wp_customize->add_setting( 'mytheme_contacts_title', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
+  $wp_customize->add_control('contact_name_control', array(
+    'label' => 'Название контакта',
+    'section' => 'contacts_section',
+    'settings' => 'contact_name',
+    'type' => 'text',
+    'description' => 'Введите название контакта',
+  ));
+
+  $wp_customize->add_control( 'mytheme_contacts_title', array(
+    'label'    => __( 'Title', 'mytheme' ),
+    'section'  => 'mytheme_contacts_section',
+    'settings' => 'mytheme_contacts_title',
+    'type'     => 'text',
+    
+) );
 
 
+   // Добавляем поле "Телефон контакта"
+   $wp_customize->add_setting('contact_phone', array(
+    'default' => '',
+    'sanitize_callback' => 'sanitize_text_field',
+  ));
 
-?>
+  $wp_customize->add_control('contact_phone_control', array(
+    'label' => 'Телефон контакта',
+    'section' => 'contacts_section',
+    'settings' => 'contact_phone',
+    'type' => 'tel',
+    'description' => 'Введите телефон контакта',
+  ));
+
+   // Добавляем поле "Количество контактов"
+   $wp_customize->add_setting('contact_count', array(
+    'default' => 1,
+    'sanitize_callback' => 'absint',
+  ));
+
+  $wp_customize->add_control('contact_count_control', array(
+    'label' => 'Количество контактов',
+    'section' => 'contacts_section',
+    'settings' => 'contact_count',
+    'type' => 'number',
+    'description' => 'Введите количество контактов для отображения в хедере сайта',
+    'input_attrs' => array(
+      'min' => 1,
+      'max' => 5,
+      'step' => 1,
+    ),
+  ));
+
+  // Добавляем поле "Иконка контакта"
+  $wp_customize->add_setting('contact_icon', array(
+    'default' => '',
+    'sanitize_callback' => 'sanitize_text_field',
+  ));
+
+  $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'contact_icon_control', array(
+    'label' => 'Иконка',
+    'section' => 'contacts_section',
+    'settings' => 'contact_icon',
+    'description' => 'Выберите изображение для использования в качестве иконки контакта',
+    'mime_type' => 'image',
+    
+  )));
+  
+  // Добавляем обработчик JavaScript для добавления/удаления контактов
+  wp_enqueue_script('contact-script', get_template_directory_uri() . '/js/contact-script.js', array('jquery', 'customize-controls'), '1.0', true);
+
+  // Добавляем стили для полей контактов
+  wp_enqueue_style('contact-styles', get_template_directory_uri() . '/css/contact-styles.css');
+}
+
+// Добавляем скрипт для динамического добавления/удаления полей контактов
+function my_theme_customize_controls_enqueue_scripts() {
+  wp_enqueue_script('contact-controls-script', get_template_directory_uri() . '/js/contact-controls-script.js', array('jquery', 'customize-controls'), '1.0', true);
+}
+
+add_action('customize_register', 'my_theme_customize_register');
+add_action('customize_controls_enqueue_scripts', 'my_theme_customize_controls_enqueue_scripts');
+?>        
