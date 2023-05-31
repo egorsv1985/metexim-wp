@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Убрать отступ у тега "body".
       body.style.paddingRight = "0px";
-
+     
+      
       // Убрать класс "lock" у элемента "documentElement".
       document.documentElement.classList.remove("lock");
 
