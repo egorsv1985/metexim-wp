@@ -29,10 +29,7 @@ get_header();
 				</div>
 				<div class="col-12 col-lg-6">
 					<div class="promo__box-img">
-						<img class="promo__img w-100" src="<?php echo esc_url(get_post_meta(get_the_ID(), '_page_image', true)); ?>" width="540">
-
-
-
+						<img src="<?php echo get_field('izobrazhenie'); ?>" alt="foto" width="540" class="promo__img w-100">
 					</div>
 				</div>
 			</div>
@@ -40,25 +37,21 @@ get_header();
 	</section>
 	<section class="content py-5">
 		<div class="container">
-			<nav class="menu">
-				<ul class="menu__list d-none d-lg-flex h-100 align-items-center justify-content-between text-nowrap ps-0 gap-3 border-bottom border-secondary">
-					<li class="menu__item d-flex justify-content-center pb-4">
-						<a href="#description" class="menu__link d-inline-block">Описание</a>
-					</li>
-					<li class="menu__item d-flex justify-content-center pb-4">
-						<a href="#price" class="menu__link d-inline-block">Цены</a>
-					</li>
-					<li class="menu__item d-flex justify-content-center pb-4">
-						<a href="#steps" class="menu__link d-inline-block">Как мы работаем</a>
-					</li>
-					<li class="menu__item d-flex justify-content-center pb-4">
-						<a href="#advantages" class="menu__link d-inline-block">Преимущества</a>
-					</li>
-					<li class="menu__item d-flex justify-content-center pb-4">
-						<a href="contacts-page.html" class="menu__link d-inline-block">Контакты</a>
-					</li>
-				</ul>
+			<nav class="menu col-12 position-relative">
+				<?php
+				$menu_items = wp_get_nav_menu_items('Дополнительное меню');
+				if ($menu_items) {
+					echo '<ul class="menu__list d-none d-lg-flex h-100 align-items-center justify-content-between text-nowrap ps-0 gap-3 border-bottom border-secondary">';
+					foreach ($menu_items as $item) {
+						echo '<li class="menu__item d-flex justify-content-center pb-4">';
+						echo '<a href="' . $item->url . '" class="menu__link d-inline-block">' . $item->title . '</a>';
+						echo '</li>';
+					}
+					echo '</ul>';
+				}
+				?>
 			</nav>
+
 			<div class="row" data-sticky data-sticky-header>
 				<div class="col-12 col-md-8">
 					<div class="mb-5" id="description">
@@ -67,26 +60,16 @@ get_header();
 								<span>Описание</span>
 							</div>
 						</div>
-						<h2 class="fs-30 fw-800 mb-3">Покупка металлолома в СПб</h2>
+						<h2 class="fs-30 fw-800 mb-3"> <?php echo get_field('zagolovok-opisanija'); ?></h2>
 						<p class="fs-16 fw-500 mb-4">
-							Черные металлы играют значимую роль в современном строительстве,
-							освоении космоса, производстве и пр. В связи с тем, что добыча руд и
-							выплавка такого металла обходится дорого, куда рациональнее
-							осуществлять вторичную обработку столь востребованного ресурса.
-							Потому-то прием черного металла в СПб пользуется такой
-							популярностью. Хотя многие «по старинке» выбрасывают мусор на
-							свалку.
+						<?php echo get_field('opisanie-nad-izobrazheniem'); ?>
 						</p>
 						<div class="d-block rounded-3">
-							<img src="@img/advantages-page.png" width="730" alt="advantages" class="w-100">
+						<img src="<?php echo get_field('izobrazhenie-opisanija'); ?>" alt="Описание" width="730" class="w-100">
+							
 						</div>
 						<p class="fs-16 fw-500 mb-4">
-							Удивительно, но факт: сегодня, не смотря на то, что прием лома
-							черных металлов представлен в широком обилии, не все решаются
-							сдавать его на специальных площадках. Кому-то может показаться, что
-							цена металлолома низкая, а кто-то считает, что процесс сдачи весьма
-							утомительный. Наша компания «Приём Лома» готова разуверить Вас в
-							этом.
+						<?php echo get_field('opisanie-pod-izobrazheniem'); ?>
 						</p>
 					</div>
 					<div class="mb-5" id="price">
@@ -129,45 +112,10 @@ get_header();
 									<td class="py-4">12 руб./кг</td>
 									<td class="py-4">12 руб./кг</td>
 									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 12А (промышленная сталь)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 13А (стальные канаты и проволока)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 17А (габаритный чугун)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 20А (негабаритный чугун)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 22А (чугун третьей категории)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 24А (чугунная стружка)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
+								</tr>								
 							</tbody>
 						</table>
+						<?php echo do_shortcode('[table id=3 /]'); ?>
 					</div>
 					<div class="mb-5" id="steps">
 						<div class="col-5 col-lg-3">

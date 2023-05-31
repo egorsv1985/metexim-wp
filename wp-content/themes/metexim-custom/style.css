@@ -796,10 +796,10 @@ body.popup-show::after {
     transition: all 0.5s ease-in-out;
   }
 }
-.header .menu__item + .header .menu__item {
+.header .menu__item + .menu__item {
   position: relative;
 }
-.header .menu__item + .header .menu__item::after {
+.header .menu__item + .menu__item::after {
   content: "";
   display: block;
   background-color: var(--text-second-color);
@@ -810,7 +810,7 @@ body.popup-show::after {
   top: -5px;
 }
 @media only screen and (max-width: 991px) {
-  .header .menu__item + .header .menu__item::after {
+  .header .menu__item + .menu__item::after {
     display: none;
   }
 }
@@ -1009,4 +1009,8 @@ body.popup-show::after {
   background-position: center;
   background-size: cover;
   background-image: url("./img/icons/map.svg");
+}
+
+caption {
+  display: none;
 }

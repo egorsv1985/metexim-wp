@@ -1142,19 +1142,20 @@ body.popup-show::after {
       transition: all 0.5s ease-in-out;
     }
 
-    &__item + &__item {
-      position: relative;
-      &::after {
-        @include pseudo;
-        background-color: var(--text-second-color);
-        width: 1px;
-        height: 25px;
-        position: absolute;
-        left: -45px;
-        top: -5px;
-        @include media(max, lg) {
-          display: none;
-        }
+   
+  }
+  .menu__item + .menu__item {
+    position: relative;
+    &::after {
+      @include pseudo;
+      background-color: var(--text-second-color);
+      width: 1px;
+      height: 25px;
+      position: absolute;
+      left: -45px;
+      top: -5px;
+      @include media(max, lg) {
+        display: none;
       }
     }
   }
@@ -1390,4 +1391,7 @@ body.popup-show::after {
       @include background(url("./img/icons/map.svg"));
     }
   }
+}
+caption{
+  display: none;
 }
