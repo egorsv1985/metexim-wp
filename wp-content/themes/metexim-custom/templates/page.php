@@ -62,14 +62,14 @@ get_header();
 						</div>
 						<h2 class="fs-30 fw-800 mb-3"> <?php echo get_field('zagolovok-opisanija'); ?></h2>
 						<p class="fs-16 fw-500 mb-4">
-						<?php echo get_field('opisanie-nad-izobrazheniem'); ?>
+							<?php echo get_field('opisanie-nad-izobrazheniem'); ?>
 						</p>
 						<div class="d-block rounded-3">
-						<img src="<?php echo get_field('izobrazhenie-opisanija'); ?>" alt="Описание" width="730" class="w-100">
-							
+							<img src="<?php echo get_field('izobrazhenie-opisanija'); ?>" alt="Описание" width="730" class="w-100">
+
 						</div>
 						<p class="fs-16 fw-500 mb-4">
-						<?php echo get_field('opisanie-pod-izobrazheniem'); ?>
+							<?php echo get_field('opisanie-pod-izobrazheniem'); ?>
 						</p>
 					</div>
 					<div class="mb-5" id="price">
@@ -79,42 +79,12 @@ get_header();
 							</div>
 						</div>
 						<h2 class="fs-30 fw-800 mb-3">
-							Ценообразование на прием лома черных металлов
+							<?php echo get_field('zagolovok-ceny'); ?>
 						</h2>
 						<p class="fs-16 fw-500 mb-4">
-							Черные металлы играют значимую роль в современном строительстве,
-							освоении космоса, производстве и пр. В связи с тем, что добыча руд и
-							выплавка такого металла обходится дорого, куда рациональнее
-							осуществлять вторичную обработку столь востребованного ресурса.
-							Потому-то прием черного металла в СПб пользуется такой
-							популярностью. Хотя многие «по старинке» выбрасывают мусор на
-							свалку.
+							<?php echo get_field('opisanie-ceny'); ?>
 						</p>
 
-						<table class="table table-striped table-hover border border-secondary rounded-3">
-							<thead class="table-danger border-0 fs-16 fw-600">
-								<tr>
-									<th class="py-4 ps-4 align-middle">Наименование лома</th>
-									<th class="py-4 align-middle">0 кг. – 100 кг.</th>
-									<th class="py-4 align-middle">100 кг. – 1 т.</th>
-									<th class="py-4 align-middle">от 1 т.</th>
-								</tr>
-							</thead>
-							<tbody class="fs-14  border-0">
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 3А (габаритная сталь)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>
-								<tr class="border border-secondary">
-									<td class="py-4 ps-4">Лом 5А (негабаритная сталь)</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">12 руб./кг</td>
-									<td class="py-4">13,5 руб./кг</td>
-								</tr>								
-							</tbody>
-						</table>
 						<?php echo do_shortcode('[table id=3 /]'); ?>
 					</div>
 					<div class="mb-5" id="steps">
@@ -123,7 +93,7 @@ get_header();
 								<span>Этапы работы</span>
 							</div>
 						</div>
-						<h2 class="fs-30 fw-800 mb-3">Развиваем отрасль вместе</h2>
+						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-dlja-jetapov-raboty'); ?></h2>
 						<div class="row mb-4">
 							<div class="col-12 col-lg-6 h-100">
 								<div class="swiper contentSwiper">
@@ -178,27 +148,11 @@ get_header();
 							</div>
 							<div class="col-12 col-lg-6">
 								<div class="rounded-3">
-									<img src="@img/steps.png" alt="steps" class="w-100" width="350">
+									<img src="<?php echo get_field('izobrazhenie-dlja-jetapov-raboty'); ?>" alt="steps" width="350" class="w-100">
 								</div>
 							</div>
 						</div>
-						<p class="fs-16 fw-500 mb-4">
-							Как смогли убедиться наши постоянные Клиенты, которые приехали сдать
-							черный металл на площадку (приемку), все было выполнено по
-							максимально высоким расценкам в городе. Основное, что Вам нужно
-							сделать – это просто набрать наш номер телефона и заказать услугу по
-							вывозу материала на
-							<a href="#" class="text-danger">пункт приема металла</a>. Как
-							вариант, Вы можете доставить лом самостоятельно.
-						</p>
-						<p class="fs-16 fw-500 mb-4">
-							Итак, если у Вас есть какие-то трубы, ненужные или вышедшие из строя
-							станки, отходы производства, металлоконструкции, офсетные пластины –
-							звоните и сдавайте их. Мы принимаем от одного килограмма до
-							нескольких тонн. Всю дополнительную информацию о том, как проводится
-							прием черного лома в Санкт-Петербурге и Ленинградской области на
-							приемке, Вы можете уточнить у наших сотрудников.
-						</p>
+						<?php echo get_field('kontent'); ?>
 					</div>
 					<div class="mb-5" id="advantages">
 						<div class="col-5 col-lg-3">
@@ -206,8 +160,7 @@ get_header();
 								<span>Преимущества</span>
 							</div>
 						</div>
-						<h2 class="fs-30 fw-800 mb-3">Особенности работы с нами</h2>
-
+						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-ceny'); ?></h2>
 						<div class="row mb-4 overflow-hidden">
 							<div class="col-12 col-lg-6 content__item position-relative">
 								<div class="py-2 d-flex flex-column">

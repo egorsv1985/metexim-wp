@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php wp_title(); ?></title>
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" type="image/x-icon">
-  <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=<ваш API-ключ>&lang=ru_RU" type="text/javascript"></script> -->
+  <script src="https://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU&apikey=bcdc8e2e-fa4a-44c1-833f-6fb67f82b03d" type="text/javascript"></script>
   <?php $locations = explode("\n", get_field('metki-na-karte')); // получаем массив всех мест 
   ?>
   <script type="text/javascript">
@@ -14,14 +14,15 @@
 
     function init() {
       var myMap = new ymaps.Map('map', {
-        center: [<?php echo explode(",", $locations[0])[2]; ?>, <?php echo explode(",", $locations[0])[3]; ?>],
-        zoom: 14
+        center: [<?php echo explode(";", $locations[0])[2]; ?>, <?php echo explode(";", $locations[0])[3]; ?>],
+        zoom: 10,
+        controls: ['zoomControl']
       });
 
       <?php foreach ($locations as $index => $location) : ?>
-        var placeMark_<?php echo $index; ?> = new ymaps.Placemark([<?php echo explode(",", $location)[2]; ?>, <?php echo explode(",", $location)[3]; ?>], {
-          name: '<?php echo explode(",", $location)[0]; ?>',
-          address: '<?php echo explode(",", $location)[1]; ?>',
+        var placeMark_<?php echo $index; ?> = new ymaps.Placemark([<?php echo explode(";", $location)[2]; ?>, <?php echo explode(";", $location)[3]; ?>], {
+          name: '<?php echo explode(";", $location)[0]; ?>',
+          address: '<?php echo explode(";", $location)[1]; ?>',
           description: '',
         });
         myMap.geoObjects.add(placeMark_<?php echo $index; ?>);

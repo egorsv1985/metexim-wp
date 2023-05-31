@@ -45,19 +45,7 @@ get_header(); ?>
 					</div>
 				</div>
 				<div class="col-12 col-lg-6">
-					<div class="promo__map" id="map"></div>
-
-					<div class="promo__map">
-						<div style="position: relative; overflow: hidden">
-							<a href="https://yandex.by/maps/2/saint-petersburg/?utm_medium=mapframe&utm_source=maps" style="color: #eee; font-size: 12px; position: absolute; top: 0px">Санкт‑Петербург</a><a href="https://yandex.by/maps/2/saint-petersburg/house/territoriya_volny_ostrov_1/Z0kYdARhSkUGQFtjfXR4dHhqZw==/?ll=30.231301%2C59.895493&utm_medium=mapframe&utm_source=maps&z=16" style="
-                color: #eee;
-                font-size: 12px;
-                position: absolute;
-                top: 14px;
-              ">Территория Вольный Остров, 1 на карте Санкт‑Петербурга —
-								Яндекс Карты</a><iframe src="https://yandex.by/map-widget/v1/?ll=30.231301%2C59.895493&mode=whatshere&whatshere%5Bpoint%5D=30.231301%2C59.895493&whatshere%5Bzoom%5D=17&z=16" width="540" height="540" allowfullscreen="true" style="position: relative; border-radius: 10px;"></iframe>
-						</div>
-					</div>
+					<div class="promo__map" id="map" style="height:540px"></div>
 				</div>
 			</div>
 		</div>
