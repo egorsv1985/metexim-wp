@@ -15,7 +15,6 @@ function metexim_custom_enqueue_scripts()
 {
     wp_enqueue_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', array('jquery'), null, false);
     wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', array('jquery'), null, false);
-    wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js', array(''), null, false);
     wp_enqueue_script('app', get_stylesheet_directory_uri() . '/js/app.js');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_scripts');

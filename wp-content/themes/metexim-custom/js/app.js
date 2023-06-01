@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Убрать отступ у тега "body".
       body.style.paddingRight = "0px";
-     
-      
+
       // Убрать класс "lock" у элемента "documentElement".
       document.documentElement.classList.remove("lock");
 
@@ -163,6 +162,47 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
   }
+  // выбираем элемент с id "promo-section" и создаем новый Swiper объект
+  var contentSwiper = new Swiper(".contentSwiper", {
+    // задаем количество слайдов, которые будут показываться одновременно
+    slidesPerView: 1,
+
+    loop: true,
+    // включаем курсор в виде "руки" при наведении на слайды
+    grabCursor: true,
+    // включаем использование клавиатуры для навигации по слайдам
+    keyboard: {
+      enabled: true,
+    },
+
+    // включаем кнопки "вперед" и "назад" для навигации по слайдам
+    navigation: {
+      nextEl: ".content .swiper-button-next",
+      prevEl: ".content .swiper-button-prev",
+    },
+    // включаем пагинацию и настраиваем внешний вид номеров слайдов
+    pagination: {
+      el: ".content .swiper-pagination",
+      clickable: true,
+      // здесь мы используем функцию renderBullet для создания номеров слайдов вида "01/10"
+      renderBullet: function (index, className) {
+        return (
+          '<span class="' +
+          className +
+          '">' +
+          '<span class="prev-slide">' +
+          ("" + (index + 1)).slice(-2) +
+          "</span>" +
+          '<span class="slash"></span>' +
+          '<span class="next-slide">' +
+          ("" + this.slides.length).slice(-2) +
+          "</span>" +
+          "</span>"
+        );
+      },
+    },
+  });
+
   // Определяем функцию callback
   ((callback) => {
     // Создаем новый объект Image
@@ -177,11 +217,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Коллбэк функция для добавления класса 'webp' или 'no-webp' в зависимости от поддержки формата WebP
   })((supported) => document.documentElement.classList.add(supported ? "webp" : "no-webp"));
- 
+
   // Функция для обработки Sticky элементов
   function handleStickyElements() {
     // Ищем все элементы с атрибутом data-sticky
     const elements = document.querySelectorAll("[data-sticky]");
+    const container = document.querySelector(".container");
 
     elements.forEach((element) => {
       // Получаем значение атрибутов data-sticky-top и data-sticky-bottom, заданных в виде строки
@@ -201,43 +242,68 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Получаем верхнюю и нижнюю границы секции
+      const sectionTop = element.offsetTop;
+      const sectionBottom = sectionTop + element.offsetHeight;
+
       // Функция для обработки события скролла
       function handleScroll() {
         // Получаем позицию скролла и координаты закрепляемого элемента
         const scrollY = window.scrollY;
         const stickyItemRect = stickyItem.getBoundingClientRect();
-        // Вычисляем диапазон, в котором надо закрепить элемент
-        const stickyItemTop =
-          stickyItemRect.top + scrollY - (headerHeight + stickyTop);
-        const stickyItemBottom =
-          element.offsetHeight +
-          element.getBoundingClientRect().top +
-          scrollY -
-          (headerHeight + stickyItem.offsetHeight + stickyBottom);
 
-        if (scrollY >= stickyItemTop && scrollY <= stickyItemBottom) {
-          // Когда скролл находится внутри диапазона stickyItemTop и stickyItemBottom
-          // Закрепляем элемент с определенными стилями
-          stickyItem.style.position = "fixed";
-          stickyItem.style.bottom = "auto";
-          stickyItem.style.top = `${headerHeight + stickyTop}px`;
-          stickyItem.style.right = `0`;
-          stickyItem.style.width = `356px`;
-        } else if (scrollY > stickyItemBottom) {
-          // Когда скролл находится ниже stickyItemBottom
-          // Разрешаем элементу двигаться вниз со скроллом
-          stickyItem.style.position = "relative";
-          stickyItem.style.bottom = `${headerHeight + stickyTop}px`;
-          stickyItem.style.top = "auto";
-          stickyItem.style.right = `0`;
-          stickyItem.style.width = `356px`;
+        // Проверяем, находится ли скролл внутри границ секции
+        if (scrollY >= sectionTop && scrollY <= sectionBottom) {
+          // Вычисляем диапазон, в котором надо закрепить элемент
+          const stickyItemTop =
+            stickyItemRect.top + scrollY - (headerHeight + stickyTop);
+          const stickyItemBottom =
+            sectionBottom -
+            (headerHeight + stickyItem.offsetHeight + stickyBottom);
+
+          if (scrollY >= stickyItemTop && scrollY <= stickyItemBottom) {
+            // Когда скролл находится внутри диапазона stickyItemTop и stickyItemBottom
+            // Закрепляем элемент с определенными стилями
+            stickyItem.style.position = "fixed";
+            stickyItem.style.bottom = "auto";
+            stickyItem.style.top = `${headerHeight + stickyTop}px`;
+            stickyItem.style.right = "auto";
+            stickyItem.style.width = "auto";
+            stickyItem.style.maxWidth = "356px";
+          } else if (scrollY > stickyItemBottom) {
+            // Когда скролл находится ниже stickyItemBottom
+            // Разрешаем элементу двигаться вниз со скроллом
+            stickyItem.style.position = "relative";
+            stickyItem.style.bottom = `${stickyBottom}px`;
+            stickyItem.style.top = "auto";
+            stickyItem.style.right = "auto";
+            stickyItem.style.width = "auto";
+
+            // Проверяем, если правая граница элемента близка к правой границе контейнера, изменяем ширину на фиксированное значение
+            const containerRight = container.offsetLeft + container.offsetWidth;
+            const stickyItemRight =
+              stickyItem.offsetLeft + stickyItem.offsetWidth;
+            if (stickyItemRight >= containerRight) {
+              stickyItem.style.width = `${
+                containerRight - stickyItem.offsetLeft
+              }px`;
+            }
+          } else {
+            // Когда скролл находится выше stickyItemTop
+            // Разрешаем элементу двигаться вверх со скроллом
+            stickyItem.style.position = "relative";
+            stickyItem.style.bottom = "auto";
+            stickyItem.style.top = `${stickyTop}px`;
+            stickyItem.style.right = "auto";
+            stickyItem.style.width = "auto";
+          }
         } else {
-          // Когда скролл находится выше stickyItemTop
-          // Разрешаем элементу двигаться вверх со скроллом
+          // Когда скролл находится вне границ секции
+          // Отключаем закрепление элемента
           stickyItem.style.position = "relative";
           stickyItem.style.bottom = "auto";
-          stickyItem.style.top = "0px";
-          stickyItem.style.right = "0px";
+          stickyItem.style.top = "auto";
+          stickyItem.style.right = "auto";
           stickyItem.style.width = "auto";
         }
       }

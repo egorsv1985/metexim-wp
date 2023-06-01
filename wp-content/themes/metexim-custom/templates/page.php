@@ -253,73 +253,18 @@ get_header();
 					</div>
 				</div>
 				<div class="col-12 col-md-4">
-					<form data-sticky-item name="iblock_add" action="#" method="post" class="rounded-3 border p-4 bg-secondary">
+					<div class="content__sticky rounded-3 border p-4 bg-secondary" data-sticky-item>
 						<p class="fs-24 fw-800 text-center mb-1">Остались вопросы?</p>
 						<p class="fs-16 text-center mb-4">Проконсультируем вас!</p>
-						<input type="text" id="name-content" name="form[]" placeholder="Ваше имя" class="form-control d-block w-100 mb-3 fs-14 text-info px-4 py-3" required="required" size="30" value="">
-
-						<input type="tel" id="tel-content" size="30" name="form[]" data-error="Ошибка" placeholder="Телефон" class="form-control d-block w-100 mb-3 fs-14 text-info px-4 py-3" value="" required="required">
-						<button class="d-block w-100 text-nowrap btn btn-danger mb-4 p-3" name="iblock_submit" type="submit" value="Консультация">
-							Консультация
-						</button>
-						<div class="fs-14 text-center">
-							Нажимая на кнопку, вы соглашаетесь с
-							<a href="#" class="fs-14 fw-500 text-center text-danger" target="_blank">политикой конфиденциальности</a>
-						</div>
-					</form>
+						<?php echo do_shortcode('[contact-form-7 id="102" title="Консультация"]'); ?>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-	<!-- Initialize Swiper -->
-	<script>
-		// выбираем элемент с id "promo-section" и создаем новый Swiper объект
-		var contentSwiper = new Swiper(".contentSwiper", {
-			// задаем количество слайдов, которые будут показываться одновременно
-			slidesPerView: 1,
 
-			loop: true,
-			// включаем курсор в виде "руки" при наведении на слайды
-			grabCursor: true,
-			// включаем использование клавиатуры для навигации по слайдам
-			keyboard: {
-				enabled: true,
-			},
 
-			// включаем полосу прокрутки и выбираем элемент, в котором она будет находиться
-			scrollbar: {
-				el: ".content .swiper-scrollbar",
-			},
-			// включаем кнопки "вперед" и "назад" для навигации по слайдам
-			navigation: {
-				nextEl: ".content .swiper-button-next",
-				prevEl: ".content .swiper-button-prev",
-			},
-			// включаем пагинацию и настраиваем внешний вид номеров слайдов
-			pagination: {
-				el: ".content .swiper-pagination",
-				clickable: true,
-				// здесь мы используем функцию renderBullet для создания номеров слайдов вида "01/10"
-				renderBullet: function(index, className) {
-					return (
-						'<span class="' +
-						className +
-						'">' +
-						'<span class="prev-slide">' +
-						("" + (index + 1)).slice(-2) +
-						"</span>" +
-						'<span class="slash"></span>' +
-						'<span class="next-slide">' +
-						("" + this.slides.length).slice(-2) +
-						"</span>" +
-						"</span>"
-					);
-				},
-			},
-		});
-	</script>
 	<section class="valuation py-5">
 		<div class="container">
 			<div class="row">
@@ -331,12 +276,12 @@ get_header();
 							</div>
 							<div class="col-12">
 								<h2 class="fs-30 fw-800 mb-4">
-									<?php echo get_field('zagolovok-vozle-formy'); ?>
+									Узнайте сколько вы получите денег от сдачи металлолома
 								</h2>
 							</div>
 							<div class="col-10">
 								<div class="fs-18 fw-500">
-									<?php echo get_field('kontent-vozle-formy'); ?>
+									Заполните форму и мы вам индивидуально выполнем расчет и перезвоним
 								</div>
 							</div>
 						</div>

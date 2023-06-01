@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php wp_title(); ?></title>
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js?_v=20230524111354"></script>
   <script src="https://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU&apikey=bcdc8e2e-fa4a-44c1-833f-6fb67f82b03d" type="text/javascript"></script>
   <?php $locations = explode("\n", get_field('metki-na-karte')); // получаем массив всех мест 
   ?>
@@ -99,7 +100,8 @@
 
           </div>
           <div class="col-10 col-sm-4 col-md-3 col-lg-2 py-2">
-            <a class="header__btn fs-16 fw-500 btn col-2 d-block btn-transparent btn-outline-danger text-nowrap w-100 px-3 py-3" data-popup="#callback" href="#callback" role="button" title="Связаться с нами">Связаться с нами</a>
+          <a class="header__btn fs-16 fw-500 btn col-2 d-block btn-transparent btn-outline-danger text-nowrap w-100 px-3 py-3" data-popup="#popupId" href="#[sg_popup id=219]" role="button" title="Связаться с нами">Связаться с нами</a>
+
           </div>
           <button type="button" class="header__burger burger button d-flex d-lg-none col-2 col-sm-3 my-3">
             <span class="burger__inner position-relative w-100 h-100 d-flex justify-content-center align-items-center">

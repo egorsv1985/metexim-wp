@@ -32,7 +32,7 @@ get_header(); ?>
                   <?php the_content(); ?>
                 </h2>
                 <div class="row">
-                  <a class="col-12 col-md-6 col-lg-3 btn fs-20 fw-600 px-3 py-3 btn-danger" data-popup="#callback" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
+                  <a class="col-12 col-md-6 col-lg-3 btn fs-20 fw-600 px-3 py-3 btn-danger" data-popup="#popupId" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@ get_header(); ?>
       </div>
     </div>
   </section>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js?_v=20230524111354"></script>
+  
 
 
   <section class="valuation py-5">

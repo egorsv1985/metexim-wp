@@ -4177,3 +4177,158 @@ elements.forEach(element => {
 };
 
 if ("scroll" in window) { handleStickyElements(); } });
+
+
+
+(function () {
+  // Находим все элементы с атрибутом data-sticky
+  const stickyElements = document.querySelectorAll("[data-sticky]");
+
+  if (stickyElements.length) {
+    // Перебираем каждый найденный элемент
+    stickyElements.forEach((stickyElement) => {
+      // Задаем значения для различных параметров элемента
+      const stickyTop = stickyElement.dataset.stickyTop
+        ? parseInt(stickyElement.dataset.stickyTop)
+        : 0; // Верхняя граница закрепления элемента
+      const stickyBottom = stickyElement.dataset.stickyBottom
+        ? parseInt(stickyElement.dataset.stickyBottom)
+        : 0; // Нижняя граница закрепления элемента
+      const isHeaderSticky = stickyElement.hasAttribute("data-sticky-header"); // Является ли элемент шапкой сайта
+      const headerHeight = isHeaderSticky
+        ? document.querySelector("header.header").offsetHeight
+        : 0; // Высота шапки сайта
+
+      // Функция для обработки скролла
+      function handleScroll() {
+        const stickyItem = stickyElement.querySelector("[data-sticky-item]"); // Находим элемент, который нужно закрепить
+        const stickyItemRect = stickyItem.getBoundingClientRect();
+        const scrollY = window.scrollY; // Текущая позиция скролла
+        const stickyItemTop =
+          stickyItemRect.top + scrollY - (headerHeight + stickyTop); // Верхняя граница элемента при закреплении
+        const stickyItemBottom =
+          stickyElement.offsetHeight +
+          stickyElement.getBoundingClientRect().top +
+          scrollY -
+          (headerHeight + stickyItem.offsetHeight + stickyBottom); // Нижняя граница элемента при закреплении
+
+        // Определяем стили для закрепления или движения элемента
+        let styles = {
+          position: "relative",
+          bottom: "auto",
+          top: "0px",
+          right: "0px",
+          width: "auto",
+        };
+
+        if (
+          stickyItemTop <= scrollY &&
+          scrollY <= stickyItemBottom &&
+          stickyItemBottom + stickyItem.offsetHeight < window.innerHeight
+        ) {
+          // Закрепляем элемент
+          styles.position = "fixed";
+          styles.bottom = "auto";
+          styles.top = `${headerHeight + stickyTop}px`;
+          styles.right = `${stickyItemRect.right}px`;
+          styles.width = `${stickyItem.offsetWidth}px`;
+        } else if (scrollY > stickyItemBottom) {
+          // Разрешаем элементу двигаться вниз со скроллом
+          styles.position = "relative";
+          styles.bottom = `${headerHeight + stickyTop}px`;
+          styles.top = "auto";
+          styles.right = `${stickyItemRect.left}px`;
+          styles.width = `${stickyItem.offsetWidth}px`;
+        }
+
+        // Применяем стили к элементу
+        applyStyles(stickyItem, styles);
+      }
+
+      // Добавляем обработчик события скролла
+      window.addEventListener("scroll", handleScroll);
+    });
+  }
+
+  // Применяет стили к элементу
+  function applyStyles(element, styles) {
+    element.style.cssText = Object.entries(styles)
+      .map(([key, value]) => `${key}:${value};`)
+      .join("");
+  }
+})();
+
+
+ // Функция для обработки Sticky элементов
+  function handleStickyElements() {
+    // Ищем все элементы с атрибутом data-sticky
+    const elements = document.querySelectorAll("[data-sticky]");
+
+    elements.forEach((element) => {
+      // Получаем значение атрибутов data-sticky-top и data-sticky-bottom, заданных в виде строки
+      const stickyTop = parseInt(element.dataset.stickyTop) || 0;
+      const stickyBottom = parseInt(element.dataset.stickyBottom) || 0;
+      // Проверяем, является ли текущий элемент шапкой сайта с помощью атрибута data-sticky-header
+      const isHeaderSticky = element.hasAttribute("data-sticky-header");
+      // Получаем высоту шапки
+      const headerHeight = isHeaderSticky
+        ? document.querySelector("header.header").offsetHeight
+        : 0;
+      // Находим элемент, который нужно закрепить
+      const stickyItem = element.querySelector("[data-sticky-item]");
+
+      if (!stickyItem) {
+        // Если элемент data-sticky-item не найден, пропускаем обработку
+        return;
+      }
+
+      // Функция для обработки события скролла
+      function handleScroll() {
+        // Получаем позицию скролла и координаты закрепляемого элемента
+        const scrollY = window.scrollY;
+        const stickyItemRect = stickyItem.getBoundingClientRect();
+        // Вычисляем диапазон, в котором надо закрепить элемент
+        const stickyItemTop =
+          stickyItemRect.top + scrollY - (headerHeight + stickyTop);
+        const stickyItemBottom =
+          element.offsetHeight +
+          element.getBoundingClientRect().top +
+          scrollY -
+          (headerHeight + stickyItem.offsetHeight + stickyBottom);
+
+        if (scrollY >= stickyItemTop && scrollY <= stickyItemBottom) {
+          // Когда скролл находится внутри диапазона stickyItemTop и stickyItemBottom
+          // Закрепляем элемент с определенными стилями
+          stickyItem.style.position = "fixed";
+          stickyItem.style.bottom = "auto";
+          stickyItem.style.top = `${headerHeight + stickyTop}px`;
+          stickyItem.style.right = `0`;
+          stickyItem.style.width = `356px`;
+        } else if (scrollY > stickyItemBottom) {
+          // Когда скролл находится ниже stickyItemBottom
+          // Разрешаем элементу двигаться вниз со скроллом
+          stickyItem.style.position = "relative";
+          stickyItem.style.bottom = `${headerHeight + stickyTop}px`;
+          stickyItem.style.top = "auto";
+          stickyItem.style.right = `0`;
+          stickyItem.style.width = `356px`;
+        } else {
+          // Когда скролл находится выше stickyItemTop
+          // Разрешаем элементу двигаться вверх со скроллом
+          stickyItem.style.position = "relative";
+          stickyItem.style.bottom = "auto";
+          stickyItem.style.top = "0px";
+          stickyItem.style.right = "0px";
+          stickyItem.style.width = "auto";
+        }
+      }
+
+      // Добавляем обработчик события скролла
+      window.addEventListener("scroll", handleScroll);
+    });
+  }
+
+  // Проверяем, поддерживается ли браузер события скролла
+  if ("scroll" in window) {
+    handleStickyElements();
+  }
