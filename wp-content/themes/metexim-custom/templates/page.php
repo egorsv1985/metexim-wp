@@ -22,7 +22,12 @@ get_header();
 
 						<div class="h1 fs-50 fw-900 mb-4"><?php the_title(); ?></div>
 						<h2 class="fs-20 fw-600 mb-5">
-							<?php the_content(); ?>
+							<?php
+							$content = get_the_content();
+							$content = preg_replace('/<img[^>]+>/', '', $content);
+							echo $content;
+							?>
+
 						</h2>
 						<a class="col-12 col-sm-9 col-lg-6 btn fs-20 fw-600 px-3 py-3 btn-danger mb-5" data-popup="#callback" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
 					</div>
@@ -160,13 +165,13 @@ get_header();
 								<span>Преимущества</span>
 							</div>
 						</div>
-						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-ceny'); ?></h2>
+						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-dlja-preimushhestv'); ?></h2>
 						<div class="row mb-4 overflow-hidden">
 							<div class="col-12 col-lg-6 content__item position-relative">
 								<div class="py-2 d-flex flex-column">
 									<div class="d-flex align-items-center mb-4">
 										<div class="advantages__box-svg rounded-circle me-4 d-flex bg-secondary justify-content-center align-items-center">
-											<img src="@img/icons/assessment.svg" alt="assessment" class="advantages__svg" width="40" height="25">
+											<img src="<?php echo get_theme_file_uri('img/icons/assessment.svg'); ?>" alt="assessment" class="advantages__svg" width="40" height="25">
 										</div>
 										<span class="fs-20 fw-600"> Выгодные цены</span>
 									</div>
@@ -180,7 +185,8 @@ get_header();
 								<div class="py-2 d-flex flex-column">
 									<div class="d-flex align-items-center mb-4">
 										<div class="advantages__box-svg rounded-circle me-4 d-flex bg-secondary justify-content-center align-items-center">
-											<img src="@img/icons/priems.svg" alt="priems" class="advantages__svg" width="21" height="28">
+											<img src="<?php echo get_theme_file_uri('img/icons/priems.svg'); ?>" alt="priems" class="advantages__svg" width="21" height="28">
+
 										</div>
 										<span class="fs-20 fw-600"> Несколько пунктов приема</span>
 									</div>
@@ -194,7 +200,8 @@ get_header();
 								<div class="py-2 d-flex flex-column">
 									<div class="d-flex align-items-center mb-4">
 										<div class="advantages__box-svg rounded-circle me-4 d-flex bg-secondary justify-content-center align-items-center">
-											<img src="@img/icons/logistics.svg" alt="logistics" class="advantages__svg" width="30" height="30">
+											<img src="<?php echo get_theme_file_uri('img/icons/logistics.svg'); ?>" alt="logistics" class="advantages__svg" width="30" height="30">
+
 										</div>
 										<span class="fs-20 fw-600"> Налаженая логистика</span>
 									</div>
@@ -204,12 +211,11 @@ get_header();
 									</p>
 								</div>
 							</div>
-
 							<div class="col-12 col-lg-6 content__item position-relative">
 								<div class="py-2 d-flex flex-column">
 									<div class="d-flex align-items-center mb-4">
 										<div class="advantages__box-svg rounded-circle me-4 d-flex bg-secondary justify-content-center align-items-center">
-											<img src="@img/icons/buy.svg" alt="buy" class="advantages__svg" width="30" height="28">
+											<img src="<?php echo get_theme_file_uri('img/icons/buy.svg'); ?>" alt="buy" class="advantages__svg" width="30" height="28">
 										</div>
 										<span class="fs-20 fw-600"> Своевременная оплата</span>
 									</div>
@@ -221,23 +227,29 @@ get_header();
 							</div>
 						</div>
 						<p class="fs-16 fw-500 mb-4">
-							Приём черных металлов в СПб представляет собой достаточно серьезное
-							дело, в котором необходимы профессиональные знания, навыки,
-							специальное оборудование и современная аппаратура для анализа.
-							Сотрудничая с нашей компанией, Вы сможете выгодно избавиться от
-							того, что захламляет территорию или участок. Прозрачность на всех
-							этапах сдачи и высокие
-							<a href="#" class="text-danger">цены на черный металлолом</a>мы
-							гарантируем!
+							<?php echo get_field('opisanie-dlja-preimushhestv'); ?>
 						</p>
+
 						<div class="row">
-							<div class="col-12 col-lg-6">
-								<img src="@img/document1.png" alt="document" class="w-100" width="350">
-							</div>
-							<div class="col-12 col-lg-6">
-								<img src="@img/document2.png" alt="document" class="w-100" width="350">
-							</div>
+							<?php
+							// Получаем контент текущей страницы
+							$page_content = get_post_field('post_content', get_queried_object_id());
+
+							// Используем регулярное выражение для извлечения картинок из контента
+							$pattern = '/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i';
+							preg_match_all($pattern, $page_content, $matches);
+
+							// Перебираем найденные картинки и выводим их в структуру
+							foreach ($matches[1] as $image_src) {
+							?>
+								<div class="col-12 col-lg-6">
+									<img src="<?php echo $image_src; ?>" alt="document" class="w-100" width="350">
+								</div>
+							<?php
+							}
+							?>
 						</div>
+
 					</div>
 				</div>
 				<div class="col-12 col-md-4">
