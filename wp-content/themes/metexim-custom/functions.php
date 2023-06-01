@@ -238,15 +238,14 @@ function create_category_sections()
                     'edit_posts',
                     'post-new.php?post_type=' . $section['slug']
                 );
+            });
 
-                // Добавляем класс для выделения активной секции
-                add_action('admin_enqueue_scripts', function () use ($section) {
-                    global $pagenow;
-
-                    if (($pagenow === 'post-new.php' || $pagenow === 'edit.php') && isset($_GET['post_type']) && $_GET['post_type'] === $section['slug']) {
-                        echo '<style>#toplevel_page_' . $section['slug'] . ' > a.wp-has-submenu { font-weight: bold; }</style>';
-                    }
-                });
+            // Добавляем класс для выделения активной секции
+            add_action('admin_enqueue_scripts', function () use ($section) {
+                global $pagenow;
+                if (($pagenow === 'post-new.php' || $pagenow === 'edit.php') && isset($_GET['post_type']) && $_GET['post_type'] === $section['slug']) {
+                    echo '<style>#toplevel_page_' . $section['slug'] . ' > a { color: #00f !important; }</style>';
+                }
             });
 
             $position += 1; // Увеличиваем позицию для следующей секции
@@ -255,6 +254,7 @@ function create_category_sections()
 }
 
 add_action('admin_menu', 'create_category_sections');
+
 
 
 

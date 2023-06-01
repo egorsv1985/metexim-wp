@@ -71,7 +71,7 @@ get_header(); ?>
         </div>
         <div class="col-12 col-lg-6">
 
-          <?php echo do_shortcode('[contact-form-7 id="61" title="Форма оценки стоимости"]'); ?>
+          <?php echo do_shortcode('[contact-form-7 id="126" title="Форма оценки стоимости"]'); ?>
 
 
 
@@ -254,7 +254,7 @@ get_header(); ?>
         <div class="col-12 col-lg-8 py-5">
           <?php
           // Получаем значение поля ACF "zagolovok-dlja-seo-teksta"
-          $zagolovok = get_field('zagolovok-dlja-seo-teksta');
+          $zagolovok = get_field('zagolovok-seo-teksta');
           if ($zagolovok) :
           ?>
             <h2 class="fs-30 fw-800 mb-3">
@@ -264,7 +264,7 @@ get_header(); ?>
 
           <?php
           // Получаем значение поля ACF "zagolovok-dlja-preimushhestv"
-          $kontent = get_field('kontent-dlja-seo-teksta');
+          $kontent = get_field('kontent-seo-teksta');
           if ($kontent) :
           ?>
             <div class="fs-16 fw-500">

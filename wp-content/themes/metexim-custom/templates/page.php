@@ -85,7 +85,7 @@ get_header();
 							<?php echo get_field('opisanie-ceny'); ?>
 						</p>
 
-						<?php echo do_shortcode('[table id=3 /]'); ?>
+						<?php echo do_shortcode('[table id=1 /]'); ?>
 					</div>
 					<div class="mb-5" id="steps">
 						<div class="col-5 col-lg-3">
@@ -93,7 +93,7 @@ get_header();
 								<span>Этапы работы</span>
 							</div>
 						</div>
-						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-dlja-jetapov-raboty'); ?></h2>
+						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-jetapov-raboty'); ?></h2>
 						<div class="row mb-4">
 							<div class="col-12 col-lg-6 h-100">
 								<div class="swiper contentSwiper">
@@ -148,11 +148,11 @@ get_header();
 							</div>
 							<div class="col-12 col-lg-6">
 								<div class="rounded-3">
-									<img src="<?php echo get_field('izobrazhenie-dlja-jetapov-raboty'); ?>" alt="steps" width="350" class="w-100">
+									<img src="<?php echo get_field('izobrazhenie-jetapov-raboty'); ?>" alt="steps" width="350" class="w-100">
 								</div>
 							</div>
 						</div>
-						<?php echo get_field('kontent'); ?>
+						<?php echo get_field('opisanie-jetapov-raboty'); ?>
 					</div>
 					<div class="mb-5" id="advantages">
 						<div class="col-5 col-lg-3">
