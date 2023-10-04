@@ -100,7 +100,7 @@
 
           </div>
           <div class="col-10 col-sm-4 col-md-3 col-lg-2 py-2">
-          <a class="header__btn fs-16 fw-500 btn col-2 d-block btn-transparent btn-outline-danger text-nowrap w-100 px-3 py-3 popmake-234"  href="#"  title="Связаться с нами">Связаться с нами</a>
+            <a class="header__btn fs-16 fw-500 btn col-2 d-block btn-transparent btn-outline-danger text-nowrap w-100 px-3 py-3 popmake-234" href="#" title="Связаться с нами">Связаться с нами</a>
 
           </div>
           <button type="button" class="header__burger burger button d-flex d-lg-none col-2 col-sm-3 my-3">
