@@ -110,8 +110,8 @@ get_header(); ?>
 
 					<?php if (!empty($title) && !empty($phone)) : ?>
 						<div class="d-block mb-5">
-							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
-							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background-image: url('<?php echo esc_url($icon); ?>');"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="fs-16 fw-700"><?php echo esc_html($phone); ?></a>
 						</div>
 					<?php endif; ?>
 
@@ -126,8 +126,8 @@ get_header(); ?>
 
 					<?php if (!empty($title) && !empty($phone)) : ?>
 						<div class="d-block mb-5">
-							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
-							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background-image: url('<?php echo esc_url($icon); ?>');"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="fs-16 fw-700"><?php echo esc_html($phone); ?></a>
 						</div>
 					<?php endif; ?>
 
@@ -135,7 +135,7 @@ get_header(); ?>
 						<span class="d-block fs-14 text-info contacts__span span span--mail position-relative ps-4">Почта</span>
 						<?php if (get_theme_mod('emails')) : ?>
 							<div class="emails">
-								<a class="d-block fs-16 fw-700" href="mailto:<?php echo esc_html(get_theme_mod('emails')); ?>"><?php echo esc_html(get_theme_mod('emails')); ?></a>
+								<a class="fs-16 fw-700" href="mailto:<?php echo esc_html(get_theme_mod('emails')); ?>"><?php echo esc_html(get_theme_mod('emails')); ?></a>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -151,13 +151,13 @@ get_header(); ?>
 
 					<?php if (!empty($title) && !empty($phone)) : ?>
 						<div class="d-block mb-5">
-							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background: url('<?php echo esc_url($icon); ?>') 0 center / 15px 15px no-repeat;"><?php echo esc_html($title); ?></span>
-							<a href="tel:<?php echo $phone_clean; ?>" class="d-block fs-16 fw-700"><?php echo esc_html($phone); ?></a>
+							<span class="d-block fs-14 text-info contacts__span span ps-4" style="background-image: url('<?php echo esc_url($icon); ?>');"><?php echo esc_html($title); ?></span>
+							<a href="tel:<?php echo $phone_clean; ?>" class="fs-16 fw-700"><?php echo esc_html($phone); ?></a>
 						</div>
 					<?php endif; ?>
 
 					<div class="d-block mb-5">
-						<span class="d-block fs-14 text-info contacts__span">График работы ежедневно с 8:00 до 19:00</span>
+						<span class="d-block fs-14 text-dark contacts__span">График работы ежедневно с 8:00 до 19:00</span>
 
 
 
@@ -167,7 +167,7 @@ get_header(); ?>
 						<span class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4">Адрес офиса</span>
 						<?php if (get_theme_mod('adress')) : ?>
 							<div class="adress">
-								<a class="d-block fs-16 fw-700" href="#"><?php echo esc_html(get_theme_mod('adress')); ?></a>
+								<a class=" fs-16 fw-700" href="#"><?php echo esc_html(get_theme_mod('adress')); ?></a>
 							</div>
 						<?php endif; ?>
 					</div>

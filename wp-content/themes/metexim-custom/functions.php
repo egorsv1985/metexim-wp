@@ -1,21 +1,25 @@
-<?php
+<?
 // Подключение стилей
 function metexim_custom_enqueue_styles()
 {
-    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.css');
-    wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
+	wp_enqueue_style('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
+	wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
+	wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css');
 
-    wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
+	wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_styles');
 
 
 // Подключение скриптов
 function metexim_custom_enqueue_scripts()
-{
-    wp_enqueue_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', array('jquery'), null, false);
-    wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', array('jquery'), null, false);
-    wp_enqueue_script('app', get_stylesheet_directory_uri() . '/js/app.js');
+{	
+	wp_enqueue_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', array('jquery'), null, false);
+	wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-3.6.0.js', array(), null, false);
+	wp_enqueue_script('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js', array('jquery'), null, false);
+	wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', array('jquery'), null, false);
+	wp_enqueue_script('inputmask', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js', array('jquery'), null, false);
+	wp_enqueue_script('app', get_stylesheet_directory_uri() . '/js/app.min.js');
 }
 add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_scripts');
 
@@ -24,19 +28,16 @@ add_action('wp_enqueue_scripts', 'metexim_custom_enqueue_scripts');
 // Регистрация меню
 function metexim_custom_register_menus()
 {
-    register_nav_menus(array(
-        'primary-menu' => 'Основное меню',
-        'secondary-menu' => 'Дополнительное меню',
-        'vidy-priema-metallov' => 'Виды приема металлов',
-        'uslugi' => 'Услуги',
-        'oborudovanie' => 'Оборудование',
-    ));
+	register_nav_menus(array(
+		'primary-menu' => 'Основное меню',
+		'secondary-menu' => 'Дополнительное меню',
+		'vidy-priema-metallov' => 'Виды приема металлов',
+		'uslugi' => 'Услуги',
+		'oborudovanie' => 'Оборудование',
+	));
 }
 add_action('init', 'metexim_custom_register_menus');
-?>
 
-
-<?php
 // Создание типа записи "Галерея"
 function create_gallery_post_type()
 {
@@ -147,10 +148,6 @@ function save_gallery_background_meta_box($post_id)
 add_action('save_post', 'save_gallery_background_meta_box');
 
 
-?>
-
-
-<?php
 function acf_generate_field_name($field)
 {
     // Проверяем, задано ли поле Field Label
@@ -168,12 +165,10 @@ function acf_generate_field_name($field)
     return $field;
 }
 add_filter('acf/load_field', 'acf_generate_field_name');
-?>
 
-
-<?php
 add_filter('wpcf7_autop_or_not', '__return_false');
-add_filter('wpcf7_form_elements', 'custom_wpcf7_form_elements');
+
+//add_filter('wpcf7_form_elements', 'custom_wpcf7_form_elements');
 
 function custom_wpcf7_form_elements($form)
 {
@@ -181,27 +176,16 @@ function custom_wpcf7_form_elements($form)
     $form = str_replace('<br />', '', $form); // Удалить автоматически добавляемые теги <br />
     $form = str_replace('<span class="wpcf7-form-control-wrap">', '', $form); // Удалить открывающий тег <span>
     $form = str_replace('</span>', '', $form); // Удалить закрывающий тег </span>
-
-
-
     return $form;
 }
-?>
 
-
-
-
-
-<?php
 function allow_svg_upload($mimes)
 {
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
 }
 add_filter('upload_mimes', 'allow_svg_upload');
-?>
 
-<?php
 function create_category_sections()
 {
     $categories = get_categories(); // Получаем все рубрики
@@ -255,14 +239,6 @@ function create_category_sections()
 add_action('admin_menu', 'create_category_sections');
 
 
-
-
-
-
-
-?>
-
-<?php
 // Регистрируем функцию my_theme_customize_register для работы с настройками темы WordPress
 add_action('customize_register', 'my_theme_customize_register');
 
@@ -487,9 +463,7 @@ $script = "
 ";
 
 wp_add_inline_script('customize-controls', $script);
-?>
 
-<?php
 function add_custom_classes_to_breadcrumbs($output)
 {
 
@@ -523,8 +497,14 @@ function add_custom_classes_to_breadcrumbs($output)
 
 add_filter('wpseo_breadcrumb_output', 'add_custom_classes_to_breadcrumbs');
 
-?>
 
-<?php
+add_filter('gettext', 'translate_text');
+add_filter('ngettext', 'translate_text');
+
+function translate_text($translated) {
+    $translated = str_ireplace('Электронное письмо отправлено', 'Спасибо за заявку!', $translated);
+    $translated = str_ireplace('Спасибо за ваше сообщение. Оно отправлено.', 'Мы свяжемся с Вами в ближайшее время!', $translated);
+    return $translated;
+}
 
 ?>

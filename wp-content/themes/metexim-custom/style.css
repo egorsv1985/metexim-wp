@@ -348,14 +348,16 @@ picture {
 }
 form a,
 .seo-text a,
-.content a {
+.content a,
+.contacts a {
   position: relative;
   display: inline-block;
   
 }
 form a::before,
 .seo-text a::before,
-.content a::before {
+.content a::before,
+.contacts a::before {
   content: "";
   display: block;
   background-color: var(--bg-second-color);
@@ -370,11 +372,16 @@ form a::before,
 }
 form a:hover::before,
 .seo-text a:hover::before,
-.content a:hover::before {
+.content a:hover::before,
+.contacts a:hover::before {
   
   background-color: var(--main-color);
   width: 100%;
   
+}
+.adress a::before,
+.contacts__list a::before{
+  display: none;
 }
 
 .table-danger {
@@ -1044,7 +1051,8 @@ body.popup-show::after {
     display: none;
   }
 }
-.footer__span{
+.footer__span,
+.contacts__span{
   background-position: 0 center;
   background-size:  15px 15px;
   background-repeat: no-repeat;
