@@ -5,14 +5,17 @@ Template Name: Шаблон основных страниц
 
 get_header();
 ?>
+
 <main>
 	<section class="promo">
 		<div class="container">
-			<div class="row">
+			<div class="row gy-3">
 				<div class="col-12 col-lg-6">
 					<div class="bg-secondary py-4 px-5 rounded-3 h-100 d-flex flex-column">
 						<div class="d-flex align-items-center mb-4">
-							<button class="fs-14 fw-500 btn btn-transparent btn-outline-danger px-5 py-3 position-relative btn__arrow btn__arrow--back me-4" disabled title="Назад">Назад</button>
+							<? if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) !== false) : ?>
+								<a href="javascript:history.back();" class="fs-14 fw-500 btn btn-transparent btn-outline-danger px-5 py-3 position-relative btn__arrow btn__arrow--back me-4" title="Назад">Назад</a>
+							<? endif; ?>
 							<?php
 							if (function_exists('yoast_breadcrumb')) {
 								yoast_breadcrumb('<nav class="breadcrumb">', '</nav>');
@@ -20,37 +23,60 @@ get_header();
 							?>
 						</div>
 
-						<div class="h1 fs-50 fw-900 mb-4"><?php the_title(); ?></div>
-						<h2 class="fs-20 fw-600 mb-5">
+						<?php
+						$title_words = explode(' ', get_the_title());
+						$title_class = (count($title_words) > 2) ? 'fs-40' : 'fs-50';
+						?>
+						<div class="h1 <?php echo esc_attr($title_class); ?> fw-900 mb-4"><?php the_title(); ?></div>
+
+
+						<div class="fs-20 fw-600 mb-4">
 							<?php
 							$content = get_the_content();
 							$content = preg_replace('/<img[^>]+>/', '', $content);
 							echo $content;
 							?>
 
-						</h2>
+						</div>
 						<a class="col-12 col-sm-9 col-lg-6 btn fs-20 fw-600 px-3 py-3 btn-danger mb-5" data-popup="#callback" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
 					</div>
 				</div>
 				<div class="col-12 col-lg-6">
-					<div class="promo__box-img">
-						<img src="<?php echo get_field('izobrazhenie'); ?>" alt="foto" width="540" class="promo__img w-100">
+					<div class="promo__box-img h-100 rounded-3" style="
+    background: url('<?= get_field('izobrazhenie'); ?>') 50% 50% no-repeat;
+    background-size: cover;
+">
+						<img src="<?php echo get_field('izobrazhenie'); ?>" alt="foto" width="540" class="promo__img w-100 rounded-3 opacity-0">
+
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</section>
-	<section class="content py-5">
+	<section class="content pt-5 ">
 		<div class="container">
 			<nav class="menu col-12 position-relative">
 				<?php
+				$current_page = get_post();
+
+				$menu_sections = array();
+				if (is_page('demontazh') || is_page('vyvoz')) {
+					$menu_sections = array('Описание', 'Преимущества', 'Как мы работаем');
+				} elseif (is_page('priem-chernogo-loma') || is_page('priem-cvetnogo-loma')) {
+					$menu_sections = array('Описание', 'Преимущества', 'Цены');
+				}
+
 				$menu_items = wp_get_nav_menu_items('Дополнительное меню');
 				if ($menu_items) {
-					echo '<ul class="menu__list d-none d-lg-flex h-100 align-items-center justify-content-between text-nowrap ps-0 gap-3 border-bottom border-secondary">';
+					echo '<ul class="menu__list d-none d-lg-flex h-100 align-items-center justify-content-center text-nowrap ps-0 gap-3 border-bottom border-secondary">';
 					foreach ($menu_items as $item) {
-						echo '<li class="menu__item d-flex justify-content-center pb-4">';
-						echo '<a href="' . $item->url . '" class="menu__link d-inline-block">' . $item->title . '</a>';
-						echo '</li>';
+						if (in_array($item->title, $menu_sections)) {
+							$anchor = sanitize_title($item->title);
+							echo '<li class="menu__item d-flex justify-content-center pb-4">';
+							echo '<a href="#' . $anchor . '" class="menu__link d-inline-block">' . $item->title . '</a>';
+							echo '</li>';
+						}
 					}
 					echo '</ul>';
 				}
@@ -59,7 +85,7 @@ get_header();
 
 			<div class="row" data-sticky data-sticky-header>
 				<div class="col-12 col-md-8">
-					<div class="mb-5" id="description">
+					<div class="mb-4" id="opisanie">
 						<div class="col-4 col-lg-2">
 							<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
 								<span>Описание</span>
@@ -69,97 +95,102 @@ get_header();
 						<p class="fs-16 fw-500 mb-4">
 							<?php echo get_field('opisanie-nad-izobrazheniem'); ?>
 						</p>
-						<div class="d-block rounded-3">
+						<div class="d-none rounded-3">
 							<img src="<?php echo get_field('izobrazhenie-opisanija'); ?>" alt="Описание" width="730" class="w-100">
 
 						</div>
-						<p class="fs-16 fw-500 mb-4">
+						<p class="fs-16 fw-500 mb-4 d-none">
 							<?php echo get_field('opisanie-pod-izobrazheniem'); ?>
 						</p>
 					</div>
-					<div class="mb-5" id="price">
-						<div class="col-4 col-lg-2">
-							<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
-								<span>Цены</span>
+					<?php if (is_page('priem-chernogo-loma') || is_page('priem-cvetnogo-loma')) { ?>
+						<div class="mb-4" id="ceny">
+							<div class="col-4 col-lg-2">
+								<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
+									<span>Цены</span>
+								</div>
 							</div>
-						</div>
-						<h2 class="fs-30 fw-800 mb-3">
-							<?php echo get_field('zagolovok-ceny'); ?>
-						</h2>
-						<p class="fs-16 fw-500 mb-4">
-							<?php echo get_field('opisanie-ceny'); ?>
-						</p>
+							<h2 class="fs-30 fw-800 mb-3">
+								<?php echo get_field('zagolovok-ceny'); ?>
+							</h2>
+							<p class="fs-16 fw-500 mb-4">
+								<?php echo get_field('opisanie-ceny'); ?>
+							</p>
 
-						<?php echo do_shortcode('[table id=1 /]'); ?>
-					</div>
-					<div class="mb-5" id="steps">
-						<div class="col-5 col-lg-3">
-							<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
-								<span>Этапы работы</span>
-							</div>
+							<?php if (is_page('priem-chernogo-loma')) { ?>
+								<?php echo do_shortcode('[table id=1 /]'); ?>
+							<?php } elseif (is_page('priem-cvetnogo-loma')) { ?>
+								<?php echo do_shortcode('[table id=2 /]'); ?>
+							<?php } ?>
+
+							<?php if (is_page('priem-chernogo-loma')) { ?>
+								<p class="fs-16 fw-500 mb-4"><?php echo get_field('opisanie-jetapov-raboty'); ?></p>
+							<?php } ?>
+							<?php if (is_page('priem-chernogo-loma')) { ?>
+								<p class="fs-16 fw-500 mb-4">
+									Цены не являются публичной офертой, актуальные цены просим уточнить у менеджера <a class="text-nowrap" href="tel:89990099603">8 999-009-96-03</a>.
+								</p>
+							<?php } elseif (is_page('priem-cvetnogo-loma')) { ?>
+								<p class="fs-16 fw-500 mb-4">
+									Цены не являются публичной офертой, актуальные цены просим уточнить у менеджера <a class="text-nowrap" href="tel:89219309803">8 (921) 930 98 03</a>.
+								</p>
+							<?php } ?>
+
+
 						</div>
-						<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-jetapov-raboty'); ?></h2>
-						<div class="row mb-4">
-							<div class="col-12 col-lg-6 h-100">
-								<div class="swiper contentSwiper">
-									<div class="swiper-control position-absolute d-flex">
-										<div class="swiper-button-prev position-relative end-0"></div>
-										<div class="swiper-pagination"></div>
-										<div class="swiper-button-next position-relative end-0"></div>
-									</div>
-									<div class="swiper-wrapper">
-										<div class="swiper-slide border border-success rounded-3 p-5">
-											<h3 class="fs-20 fw-600 mb-2">Оставляете заявку</h3>
-											<p class="fs-16 fw-500 text-info">
-												Свяжитесь с нами по средства формы на сайте или позвоните
-												по телефону
-												<a href="tel:+89213200011">8(921) 320 00 11</a>
-											</p>
+					<?php } ?>
+					<?php if (is_page('demontazh') || is_page('vyvoz')) { ?>
+						<div class="mb-4" id="kak-my-rabotaem">
+							<div class="col-5 col-lg-3">
+								<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
+									<span>Этапы работы</span>
+								</div>
+							</div>
+							<h2 class="fs-30 fw-800 mb-3"><?php echo get_field('zagolovok-jetapov-raboty'); ?></h2>
+							<div class="row mb-4">
+								<div class="col-12 col-lg-6 h-100">
+									<div class="swiper contentSwiper">
+										<div class="swiper-control position-absolute d-flex">
+											<div class="swiper-button-prev position-relative end-0"></div>
+											<div class="swiper-pagination"></div>
+											<div class="swiper-button-next position-relative end-0"></div>
 										</div>
-										<div class="swiper-slide border border-success rounded-3 p-5">
-											<h3 class="fs-20 fw-600 mb-2">Оставляете заявку</h3>
-											<p class="fs-16 fw-500 text-info">
-												Свяжитесь с нами по средства формы на сайте или позвоните
-												по телефону
-												<a href="tel:+89213200011">8(921) 320 00 11</a>
-											</p>
-										</div>
-										<div class="swiper-slide border border-success rounded-3 p-5">
-											<h3 class="fs-20 fw-600 mb-2">Оставляете заявку</h3>
-											<p class="fs-16 fw-500 text-info">
-												Свяжитесь с нами по средства формы на сайте или позвоните
-												по телефону
-												<a href="tel:+89213200011">8(921) 320 00 11</a>
-											</p>
-										</div>
-										<div class="swiper-slide border border-success rounded-3 p-5">
-											<h3 class="fs-20 fw-600 mb-2">Оставляете заявку</h3>
-											<p class="fs-16 fw-500 text-info">
-												Свяжитесь с нами по средства формы на сайте или позвоните
-												по телефону
-												<a href="tel:+89213200011">8(921) 320 00 11</a>
-											</p>
-										</div>
-										<div class="swiper-slide border border-success rounded-3 p-5">
-											<h3 class="fs-20 fw-600 mb-2">Оставляете заявку</h3>
-											<p class="fs-16 fw-500 text-info">
-												Свяжитесь с нами по средства формы на сайте или позвоните
-												по телефону
-												<a href="tel:+89213200011">8(921) 320 00 11</a>
-											</p>
+										<div class="swiper-wrapper">
+											<div class="swiper-slide border border-success rounded-3 p-5">
+												<h3 class="fs-20 fw-600 mb-2">Оставить заявку или позвонить</h3>
+												<p class="fs-16 fw-500 text-info">
+													<a href="tel:+89213200011">8(921) 320 00 11</a>
+												</p>
+											</div>
+											<div class="swiper-slide border border-success rounded-3 p-5">
+												<h3 class="fs-20 fw-600 mb-2">Получение обратной связи от менеджера</h3>
+
+											</div>
+											<div class="swiper-slide border border-success rounded-3 p-5">
+												<h3 class="fs-20 fw-600 mb-2">Выезд на объект специалиста</h3>
+
+											</div>
+											<div class="swiper-slide border border-success rounded-3 p-5">
+												<h3 class="fs-20 fw-600 mb-2">Оценка стоимости работ и металла</h3>
+
+											</div>
+											<div class="swiper-slide border border-success rounded-3 p-5">
+												<h3 class="fs-20 fw-600 mb-2">Заключение договора и начало работ</h3>
+
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-12 col-lg-6">
-								<div class="rounded-3">
-									<img src="<?php echo get_field('izobrazhenie-jetapov-raboty'); ?>" alt="steps" width="350" class="w-100">
+								<div class="col-12 col-lg-6">
+									<div class="rounded-3">
+										<img src="<?php echo get_field('izobrazhenie-jetapov-raboty'); ?>" alt="steps" width="350" class="w-100">
+									</div>
 								</div>
 							</div>
+							<?php echo get_field('opisanie-jetapov-raboty'); ?>
 						</div>
-						<?php echo get_field('opisanie-jetapov-raboty'); ?>
-					</div>
-					<div class="mb-5" id="advantages">
+					<?php } ?>
+					<div class="mb-4" id="preimushhestva">
 						<div class="col-5 col-lg-3">
 							<div class="bg-secondary text-danger text-center px-3 py-2 fs-16 fw-500 mb-4 rounded-2">
 								<span>Преимущества</span>
@@ -175,7 +206,7 @@ get_header();
 										</div>
 										<span class="fs-20 fw-600"> Выгодные цены</span>
 									</div>
-									<p class="fs-16 fw-500 text-info">
+									<p class="fs-16 fw-500 text-info d-none">
 										Расчет стоимости осуществляется в зависимости от качества,
 										типа примесей в материале и объема поставляемого лома.
 									</p>
@@ -190,7 +221,7 @@ get_header();
 										</div>
 										<span class="fs-20 fw-600"> Несколько пунктов приема</span>
 									</div>
-									<p class="fs-16 fw-500 text-info">
+									<p class="fs-16 fw-500 text-info d-none">
 										Расчет стоимости осуществляется в зависимости от качества,
 										типа примесей в материале и объема поставляемого лома.
 									</p>
@@ -205,7 +236,7 @@ get_header();
 										</div>
 										<span class="fs-20 fw-600"> Налаженая логистика</span>
 									</div>
-									<p class="fs-16 fw-500 text-info">
+									<p class="fs-16 fw-500 text-info d-none">
 										Расчет стоимости осуществляется в зависимости от качества,
 										типа примесей в материале и объема поставляемого лома.
 									</p>
@@ -219,7 +250,7 @@ get_header();
 										</div>
 										<span class="fs-20 fw-600"> Своевременная оплата</span>
 									</div>
-									<p class="fs-16 fw-500 text-info">
+									<p class="fs-16 fw-500 text-info d-none">
 										Расчет стоимости осуществляется в зависимости от качества,
 										типа примесей в материале и объема поставляемого лома.
 									</p>
@@ -230,7 +261,7 @@ get_header();
 							<?php echo get_field('opisanie-dlja-preimushhestv'); ?>
 						</p>
 
-						<div class="row">
+						<div class="row d-none">
 							<?php
 							// Получаем контент текущей страницы
 							$page_content = get_post_field('post_content', get_queried_object_id());
@@ -265,7 +296,8 @@ get_header();
 
 
 
-	<section class="valuation py-5">
+
+	<section class="valuation py-4">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-lg-6">

@@ -24,15 +24,16 @@ get_header(); ?>
             $background_image = get_post_meta(get_the_ID(), 'gallery_background_image', true);
           ?>
             <div class="swiper-slide rounded-3" style="background: url('<?php echo esc_url($background_image); ?>') center / cover no-repeat;">
-              <div class="row  px-5">
-                <div class="col-12 col-lg-7 h1 fs-50 fw-900 text-white mb-4">
+              <div class="row">
+                <div class="col-12 h1 fs-50 fw-900 text-white mb-4">
                   <?php the_title(); ?>
                 </div>
-                <h2 class="col-12 col-lg-7 fs-20 fw-600 text-white mb-5">
-                  <?php the_content(); ?>
-                </h2>
-                <div class="row">
-                  <a class="col-12 col-md-6 col-lg-3 btn fs-20 fw-600 px-3 py-3 btn-danger" data-popup="#popupId" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
+                <div class="fs-20 fw-600 text-white mb-5">
+                  <? the_content();  ?>
+                </div>
+                <div col-12 col-md-6 col-lg-3>
+
+                  <a class=" btn fs-20 fw-600 px-3 py-3 btn-danger" data-popup="#callback" href="#callback" role="button" title="Оставить заявку">Оставить заявку</a>
                 </div>
               </div>
             </div>
@@ -44,7 +45,7 @@ get_header(); ?>
       </div>
     </div>
   </section>
-  
+
 
 
   <section class="valuation py-5">
@@ -88,9 +89,9 @@ get_header(); ?>
       $zagolovok = get_field('zagolovok-dlja-preimushhestv');
       if ($zagolovok) :
       ?>
-        <h2 class="fs-36 fw-800 text-center mb-5">
+        <h1 class="fs-36 fw-800 text-center mb-5">
           <?php echo $zagolovok; ?>
-        </h2>
+        </h1>
       <?php endif; ?>
       <ul class="nav nav-tabs flex-column flex-lg-row justify-content-center position-relative mb-5 gap-3 flex-nowrap" id="advantagesTab" role="tablist">
         <?php
@@ -116,7 +117,7 @@ get_header(); ?>
             <li class="nav-item position-relative" role="presentation">
               <button class="nav-link p-2 p-lg-4 fs-20 fw-600 rounded-3 d-flex flex-lg-column align-items-center gap-2 w-100 text-primary h-100 <?php echo $active_class; ?>" id="<?php echo $tab_id; ?>-tab" data-bs-toggle="tab" data-bs-target="#<?php echo $tab_id; ?>" type="button" role="tab" aria-controls="<?php echo $tab_id; ?>" aria-selected="<?php echo $selected; ?>">
                 <span class="advantages__box-svg rounded-circle bg-secondary mb-2 d-flex justify-content-center align-items-center">
-                  <img src="<?php echo get_field('ikonka-preimushhestva'); ?>" alt="<?php echo $title; ?>" class="advantages__svg">
+                  <img src="<?php echo get_field('ikonka-preimushhestva'); ?>" alt="Иллюстрация <?php echo $title; ?>" class="advantages__svg">
                 </span>
                 <?php echo $title; ?>
               </button>
@@ -128,7 +129,7 @@ get_header(); ?>
         wp_reset_postdata();
         ?>
       </ul>
-      <div class="row" data-sticky data-sticky-header>
+      <div class="row gy-5" data-sticky data-sticky-header>
         <div class="col-12 col-md-8">
           <div class="tab-content" id="advantagesTabContent">
             <?php
@@ -144,8 +145,69 @@ get_header(); ?>
                 $first_tab = false; // Устанавливаем переменную в false после первой вкладки
             ?>
                 <div class="tab-pane fade <?php echo $active_class; ?>" id="<?php echo $tab_id; ?>" role="tabpanel" aria-labelledby="<?php echo $tab_id; ?>-tab">
-                  <h3 class="fs-30 fw-800 mb-4"><?php echo $title; ?></h3>
-                  <?php echo $content; ?>
+                  <h2 class="fs-30 fw-800 mb-4"><?php echo $title; ?></h2>
+                  <div class="content-box position-relative mb-5 mb-lg-3">
+                    <?php
+                    // Получаем ярлык (slug) текущей записи
+                    $post_slug = get_post_field('post_name', get_post());
+
+                    // Получаем контент текущей записи
+                    $content = get_the_content();
+
+                    // Ищем все изображения в контенте
+                    preg_match_all('/<img[^>]+>/i', $content, $matches);
+
+                    // Имя слайдера будет зависеть от первого слова в ярлыке записи
+                    $slug_parts = explode('-', $post_slug);
+                    $slider_name = strtolower($slug_parts[0]) . 'Swiper'; // Приводим к нижнему регистру и добавляем 'Swiper'
+                    ?>
+
+                    <?php
+                    // Если ярлык соответствует 'dogovor-na-lom-metallov' или 'licenzija-na-lom-metallov'
+                    if ($post_slug === 'dogovor-na-lom-metallov' || $post_slug === 'licenzija-na-lom-metallov') :
+                    ?>
+                      <!-- Начало слайдера -->
+                      <div class="swiper <?php echo $slider_name; ?>">
+                        <div class="swiper-wrapper">
+                          <?php
+                          // Отображаем все изображения из контента в текущем слайдере
+                          foreach ($matches[0] as $image) :
+                            preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $image, $image_src);
+                            if (!empty($image_src[1])) :
+                          ?>
+                              <div class="swiper-slide">
+                                <a href="<?php echo esc_url($image_src[1]); ?>" class="fancy d-flex justify-content-center" data-fancybox="gallery">
+                                  <img src="<?php echo esc_url($image_src[1]); ?>" class="w-100 h-100 d-lg-none" alt="" width="450" height="650">
+                                  <img src="<?php echo esc_url($image_src[1]); ?>" class="d-none d-lg-block" alt="" width="450" height="650">
+
+                                </a>
+                              </div>
+                          <?php
+                            endif;
+                          endforeach;
+                          ?>
+                        </div>
+
+                      </div>
+                      <!-- Конец слайдера -->
+                      <!-- Кнопки управления слайдером -->
+                      <div class="swiper-control d-flex position-absolute w-100">
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                      </div>
+                    <?php
+                    else :
+                      // Выводим контент, если ярлык не соответствует ни одному из условий
+                      the_content();
+                    endif;
+                    ?>
+                  </div>
+
+
+
+
+
+
                 </div>
             <?php
               endwhile;
@@ -171,7 +233,7 @@ get_header(); ?>
 
 
 
-  <section class="banner py-3">
+  <section class="banner py-5">
     <div class="container">
       <div class="rounded-3 p-5" style="background: url('<?php the_field('fon-bannera'); ?>') center / cover no-repeat;">
         <div class="row">

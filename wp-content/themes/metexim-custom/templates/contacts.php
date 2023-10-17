@@ -4,6 +4,44 @@ Template Name: Шаблон страницы контактов
 */
 
 get_header(); ?>
+
+<script type="text/javascript">
+	// Загрузка Яндекс.Карт и вызов функции инициализации
+	ymaps.ready(init);
+
+	function init() {
+		// Создание карты
+		var myMap = new ymaps.Map('map', {
+			center: [59.949879, 30.212306], // Координаты центра карты
+			zoom: 9, // Уровень масштабирования
+		});
+		// Обновленный массив с адресами и координатами
+		var locations = [{
+				address: 'Площадка г. Санкт-Петербург вн. тер. г. Морские ворота, остров Вольный, д. 1 работает круглосуточно',
+				coordinates: [59.895493, 30.231301]
+			},
+			{
+				address: 'Площадка г. Санкт-Петербург проспект Большевиков, 56к4',
+				coordinates: [59.880708, 30.495235]
+			},
+			{
+				address: 'Площадка г Колпино, тер. Ижорский завод, участок 20 (южнее дома 60), литера МГ',
+				coordinates: [59.751565, 30.596870]
+			}
+
+		];
+		// Добавление меток на карту
+		locations.forEach(function(location) {
+			var placeMark = new ymaps.Placemark(location.coordinates, {
+				hintContent: location.address,
+				balloonContent: location.address
+			});
+			myMap.geoObjects.add(placeMark);
+		});
+		// Добавление масштабирования карты при наведении мыши
+		myMap.behaviors.enable('scrollZoom');
+	}
+</script>
 <main>
 	<section class="promo">
 		<div class="container">
@@ -11,7 +49,14 @@ get_header(); ?>
 				<div class="col-12 col-lg-6 mb-3 mb-lg-0">
 					<div class="bg-secondary py-4 px-5 rounded-3 h-100 d-flex flex-column">
 						<div class="d-flex align-items-center mb-4">
-							<button class="fs-14 fw-500 btn btn-transparent btn-outline-danger px-5 py-3 position-relative btn__arrow btn__arrow--back me-4" disabled title="Назад">Назад</button>
+							<?
+							if (
+								isset($_SERVER['HTTP_REFERER'])
+								&&
+								strpos($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) !== false
+							) : ?>
+								<a href="javascript:history.back();" class="fs-14 fw-500 btn btn-transparent btn-outline-danger px-5 py-3 position-relative btn__arrow btn__arrow--back me-4" title="Назад">Назад</a>
+							<? endif; ?>
 							<?php
 							if (function_exists('yoast_breadcrumb')) {
 								yoast_breadcrumb('<nav class="breadcrumb">', '</nav>');
@@ -112,22 +157,9 @@ get_header(); ?>
 					<?php endif; ?>
 
 					<div class="d-block mb-5">
-						<span class="d-block fs-14 text-info contacts__span">Мессенджеры</span>
+						<span class="d-block fs-14 text-info contacts__span">График работы ежедневно с 8:00 до 19:00</span>
 
-						<?php
-						$menu_items = wp_get_nav_menu_items('Мессенджеры');
-						if ($menu_items) {
-							echo '<ul class="contacts__social-list social d-flex gap-2 ps-0 m-0">';
-							foreach ($menu_items as $item) {
-								$icon_image = get_field('ikonka', $item->object_id); // Получаем изображение из поля ACF "ikonka" для текущего пункта меню
-								echo '<li class="social__item">';
-								echo '<a href="' . $item->url . '" class="social__link d-block" style="background: url(\'' . $icon_image . '\') center / cover no-repeat;">';
-								echo '</a>';
-								echo '</li>';
-							}
-							echo '</ul>';
-						}
-						?>
+
 
 					</div>
 
@@ -144,8 +176,7 @@ get_header(); ?>
 					<span class="d-block fs-14 text-info contacts__span span span--map position-relative ps-4 mb-3">Пункты приема</span>
 					<ul class="contacts__list">
 						<li class="mb-2">
-							<a href="#" class="fs-16 fw-700">Площадка г. Санкт-Петербург вн. тер. г. Морские ворота, остров
-								Вольный, д. 1
+							<a href="#" class="fs-16 fw-700">Площадка г. Санкт-Петербург вн. тер. г. Морские ворота, остров Вольный, д. 1 <strong>работает круглосуточно.</strong>
 							</a>
 						</li>
 						<li class="mb-2">
