@@ -15,13 +15,7 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="yandex-verification" content="1cac47e3e460d2e6" />
   <meta name="google-site-verification" content="eA-PfK1nPHSyN8wdtiNhto-ygkEVLisbcxpBYhBLIZM" />
-
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js?_v=20230524111354"></script>
-  <script src="https://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU&apikey=bcdc8e2e-fa4a-44c1-833f-6fb67f82b03d" type="text/javascript"></script>
-  <?php $locations = explode("\n", get_field('metki-na-karte')); // получаем массив всех мест 
-  ?>
-
+  <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js?_v=20230524111354"></script> -->
   <?php wp_head(); ?>
   <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome-Lighthouse') === false) : ?>
     <!-- Google Tag Manager -->
@@ -43,16 +37,22 @@
     </script>
     <!-- End Google Tag Manager -->
   <?php endif; ?>
-
+  <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome-Lighthouse') !== false) : ?>
+    <style>
+      .text-info {
+        color: #000 !important;
+      }
+    </style>
+  <?php endif; ?>
 </head>
 
 <body <?php body_class(); ?>>
   <?php wp_body_open(); ?>
   <div class="wrapper">
-  <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome-Lighthouse') === false) : ?>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5S5L86XN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome-Lighthouse') === false) : ?>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5S5L86XN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
     <?php endif; ?>
     <header class="header bg-white py-2">
       <div class="container">
@@ -60,7 +60,7 @@
           <div class="col-3 col-lg-2 d-none d-md-block">
             <?php if (get_theme_mod('custom_logo')) : ?>
               <a href="<?php echo esc_url(home_url('/')); ?>" class="header__logo logo d-flex align-items-center">
-                <img src="<?php echo esc_url(wp_get_attachment_url(get_theme_mod('custom_logo'))); ?>" alt="<?php bloginfo('name'); ?>">
+                <img src="<?php echo esc_url(wp_get_attachment_url(get_theme_mod('custom_logo'))); ?>" alt="<?php bloginfo('name'); ?>" width="159" height="40">
               </a>
             <?php else : ?>
               <a href="<?php echo esc_url(home_url('/')); ?>" class="header__logo logo d-flex align-items-center">

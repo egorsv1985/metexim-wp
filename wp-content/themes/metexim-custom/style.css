@@ -1051,6 +1051,11 @@ body.popup-show::after {
     display: none;
   }
 }
+.banner__img{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 .footer__span,
 .contacts__span{
   background-position: 0 center;

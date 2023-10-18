@@ -23,7 +23,7 @@ get_header(); ?>
           while ($gallery_posts->have_posts()) : $gallery_posts->the_post();
             $background_image = get_post_meta(get_the_ID(), 'gallery_background_image', true);
           ?>
-            <div class="swiper-slide rounded-3" style="background: url('<?php echo esc_url($background_image); ?>') center / cover no-repeat;">
+            <div class="swiper-slide rounded-3" style="background: url('<?php echo esc_url($background_image); ?>');">
               <div class="row">
                 <div class="col-12 h1 fs-50 fw-900 text-white mb-4">
                   <?php the_title(); ?>
@@ -117,7 +117,7 @@ get_header(); ?>
             <li class="nav-item position-relative" role="presentation">
               <button class="nav-link p-2 p-lg-4 fs-20 fw-600 rounded-3 d-flex flex-lg-column align-items-center gap-2 w-100 text-primary h-100 <?php echo $active_class; ?>" id="<?php echo $tab_id; ?>-tab" data-bs-toggle="tab" data-bs-target="#<?php echo $tab_id; ?>" type="button" role="tab" aria-controls="<?php echo $tab_id; ?>" aria-selected="<?php echo $selected; ?>">
                 <span class="advantages__box-svg rounded-circle bg-secondary mb-2 d-flex justify-content-center align-items-center">
-                  <img src="<?php echo get_field('ikonka-preimushhestva'); ?>" alt="Иллюстрация <?php echo $title; ?>" class="advantages__svg">
+                  <img src="<?php echo get_field('ikonka-preimushhestva'); ?>" alt="Иллюстрация <?php echo $title; ?>" class="advantages__svg" width="24" height="29"> 
                 </span>
                 <?php echo $title; ?>
               </button>
@@ -235,7 +235,7 @@ get_header(); ?>
 
   <section class="banner py-5">
     <div class="container">
-      <div class="rounded-3 p-5" style="background: url('<?php the_field('fon-bannera'); ?>') center / cover no-repeat;">
+      <div class="rounded-3 p-5 banner__img" style="background: url('<?php the_field('fon-bannera'); ?>');">
         <div class="row">
           <div class="col-12 col-lg-8 py-4">
             <div class="row">
@@ -288,27 +288,18 @@ get_header(); ?>
                   <span class="banner__box-svg rounded-circle d-flex justify-content-center align-items-center">
                     <img src="<?php echo get_template_directory_uri(); ?>/img/icons/tel.svg" alt="tel" class="banner__svg" width="30" height="30">
                   </span>
-
-
                   <span class="d-flex flex-column">
                     <span class="fs-14 text-white mb-1"><?php echo esc_html($title); ?></span>
                     <span class="fs-24 fw-700 text-white"><?php echo esc_html($phone); ?></span>
                   </span>
                 </a>
-
-
-
-
               <?php endif; ?>
             <?php endfor; ?>
           </div>
-
         </div>
-
       </div>
     </div>
   </section>
-
 
   <section class="seo-text py-5">
     <div class="container">
