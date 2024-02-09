@@ -76,7 +76,7 @@
 				?>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
-				<h3 class="fs-18 fw-600 mb-3">Виды приема металлов</h3>
+				<h3 class="fs-18 fw-600 mb-3">Полезная информация</h3>
 				<nav class="header__menu menu col-12 position-relative">
 					<?php
 					$menu_items = wp_get_nav_menu_items('Виды приема металлов');
@@ -136,7 +136,7 @@
 				<a class="fs-14 fw-500 text-info" href="/polzovatelskoesoglashenie/" title="Пользовательское соглашение">Пользовательское соглашение</a>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
-				<a href="/kontakty/" target="_blank" class="fs-14 fw-500 text-info">Пункты приема</a>
+				<a href="/kontakty/" target="_blank" class="fs-14 fw-500 text-info">Вакансии</a>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-3">
 				<a href="https://target-kc.ru" target="_blank" class="fs-14 fw-500 text-info">Разработка сайта ТКК</a>
