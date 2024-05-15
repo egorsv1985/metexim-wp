@@ -860,6 +860,7 @@ body.popup-show::after {
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+	filter: grayscale(100%);
 }
 .social__link--telegram {
 	background-image: url('./img/icons/telegram.svg');
