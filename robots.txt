@@ -1,0 +1,6 @@
+User-Agent: *
+Disallow: /gallery/
+Disallow: /author/
+User-agent: *
+Clean-param: etext
+Host: metexim.ru

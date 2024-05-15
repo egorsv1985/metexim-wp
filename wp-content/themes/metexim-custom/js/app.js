@@ -435,6 +435,15 @@ jQuery(document).ready(function () {
         greedy: false,
         placeholder: "_",
     });
-
+$('#vid-metal, #tip-izdeliya').change(function () {
+	if (
+		$('#vid-metal').val() != 'Вид металла' &&
+		$('#tip-izdeliya').val() != 'Тип изделия'
+	) {
+		$('#two-tab').removeClass('disabled ')
+	} else {
+		$('#two-tab').addClass('disabled ')
+	}
+})
 });
  
